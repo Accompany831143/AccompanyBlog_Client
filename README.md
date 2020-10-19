@@ -1,20 +1,22 @@
-# accompany
+# Accompany博客 前端
 
-## Build Setup
+> 博客网站前端，采用nuxt框架开发
+
+## 运行
 
 ```bash
-# install dependencies
+# 安装依赖
 $ npm install
 
-# serve with hot reload at localhost:3000
+# 开发模式运行
 $ npm run dev
 
-# build for production and launch server
+# 打包部署
 $ npm run build
 $ npm run start
 
-# generate static project
+# 构建为静态文件
 $ npm run generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
