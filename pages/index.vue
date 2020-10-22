@@ -5,9 +5,9 @@
       <div class="container">
         <h1>欢迎来到Aiva的博客</h1>
         <h2>愿你所愿 终能实现</h2>
-        <div>
-          <a-button type="danger">开始浏览</a-button>
-        </div>
+        <!-- <div>
+          <a-button type="danger" @click="toMain">开始浏览</a-button>
+        </div> -->
       </div>
     </section>
 
@@ -23,7 +23,7 @@
                 :key="item"
               >
                 <div class="img_box">
-                  <nuxt-link to="">
+                  <nuxt-link :to="'/article/'+item">
                     <img src="../assets/imgs/banner_bg.jpg" alt="" />
                   </nuxt-link>
                 </div>
@@ -38,16 +38,20 @@
                   </a-tooltip>
 
                   <div>
-                    <a-icon type="eye" />
-                    <span>65</span>
+                    <a-icon type="eye" style="color: #999" />
+                    <span style="color: #999">65</span>
                   </div>
                   <div>
-                    <a-icon type="like" />
-                    <span>32</span>
+                    <a-icon type="like" style="color: #999" />
+                    <span style="color: #999">32</span>
+                  </div>
+                  <div>
+                    <a-icon type="heart" style="color: #999" />
+                    <span style="color: #999">13</span>
                   </div>
                 </div>
                 <h2>
-                  <nuxt-link class="linkColor" to=""
+                  <nuxt-link class="linkColor" :to="'/article/'+item"
                     >webpack配置babel</nuxt-link
                   >
                 </h2>
@@ -87,7 +91,17 @@
               <div class="menu_item boxShadowBase">
                 <p><i></i><span>日期列表</span></p>
                 <ul>
-                  <li v-for="item in ['202001','202002','202003','202004','202005','202006']" :key="item">
+                  <li
+                    v-for="item in [
+                      '202001',
+                      '202002',
+                      '202003',
+                      '202004',
+                      '202005',
+                      '202006',
+                    ]"
+                    :key="item"
+                  >
                     <a-tooltip placement="left">
                       <template slot="title"> 日期日期{{ item }} </template
                       ><nuxt-link class="linkColor" to="">
@@ -109,15 +123,38 @@
 export default {
   layout: "container",
   data() {
-    return {};
+    return {
+      scrollTimer: null,
+    };
   },
   methods: {
     changePage(page) {},
+  },
+  created() {
+    this.$store.commit('changeIsHome',false)
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      window.onload = () => {
+        this.$nuxt.$loading.finish();
+      };
+    });
   },
 };
 </script>
 
 <style lang="less">
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 .aiva_home {
   .banner {
     position: absolute;
@@ -136,25 +173,28 @@ export default {
       align-items: flex-start;
       h1,
       h2 {
+        opacity: 0;
         color: #fff;
         font-weight: normal;
       }
       h1 {
         font-size: 36px;
+        animation: fadeIn 2s ease forwards;
       }
       h2 {
+        animation: fadeIn 2s ease 1s forwards;
         margin: 20px 0 26px 0;
-        font-size: 26px;
+        font-size: 22px;
       }
-      .ant-btn-danger {
-        background-color: #d0344e;
-        border-color: #d0344e;
-      }
+      // .ant-btn-danger {
+      //   background-color: #d0344e;
+      //   border-color: #d0344e;
+      // }
     }
   }
   .aiva_main {
     padding-top: 100vh;
-    margin-top:60px;
+    margin-top: 60px;
     .article_list {
       .article_item {
         padding: 12px;
@@ -162,10 +202,10 @@ export default {
         background-color: #fff;
         margin-bottom: 80px;
         overflow: hidden;
-        transition: all .4s ease;
+        transition: all 0.4s ease;
         &:hover {
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-          transform:translateY(-6px);
+          transform: translateY(-6px);
         }
         .img_box {
           width: 100%;
@@ -221,7 +261,7 @@ export default {
       .menu_item {
         background-color: #fff;
         padding: 16px;
-        margin-bottom:40px;
+        margin-bottom: 40px;
         p {
           display: flex;
           align-items: center;

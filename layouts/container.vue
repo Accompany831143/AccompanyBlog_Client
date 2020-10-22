@@ -2,18 +2,22 @@
   <a-locale-provider :locale="locale">
     <div class="accompany">
       <!-- 导航 -->
-      <nav :class="{ navbar: true, 'navbar-top': isTop }">
+      <nav :class="{ navbar: true, 'navbar-top': getScrollState }">
         <div class="container">
           <a-row justify="space-between">
-            <a-col span="12">
-              <div class="logo"><a class="linkColor" href="/"><img src="../assets/imgs/Aiva.png" alt="Aiva"></a></div>
+            <a-col span="18">
+              <div class="logo">
+                <a class="linkColor" href="/"
+                  ><img src="../assets/imgs/Aiva.png" alt="Aiva"
+                /></a>
+              </div>
             </a-col>
-            <a-col span="12">
+            <a-col span="6">
               <div class="navbar_main">
                 <ul class="navbar_menu">
-                  <li><nuxt-link class="linkColor" to="">文章</nuxt-link></li>
-                  <li><nuxt-link class="linkColor" to="">案例</nuxt-link></li>
-                  <li><nuxt-link class="linkColor" to="">关于</nuxt-link></li>
+                  <!-- <li><nuxt-link class="linkColor" to="">文章</nuxt-link></li> -->
+                  <!-- <li><nuxt-link class="linkColor" to="">案例</nuxt-link></li> -->
+                  <!-- <li><nuxt-link class="linkColor" to="">关于</nuxt-link></li> -->
                   <li>
                     <a-input-search
                       placeholder="请输入搜索内容"
@@ -38,13 +42,17 @@
           <a href="http://beian.miit.gov.cn/" target="_blank"
             >豫ICP备20001126号</a
           >
-          <a href="mailto:Accompany_zhao@163.com">邮箱： Accompany_zhao@163.com</a>
+          <span>
+            邮箱：
+            <a href="mailto:Accompany_zhao@163.com">Accompany_zhao@163.com</a>
+          </span>
+
           <span>
             <a href="https://github.com/Accompany831143" target="_blank">
               <a-icon type="github"></a-icon>
             </a>
             <a
-              style="margin-left: 16px" 
+              style="margin-left: 16px"
               href="https://www.jianshu.com/u/9ff01840573a"
               target="_blank"
               >简书</a
@@ -53,7 +61,7 @@
         </div>
       </footer>
 
-      <a-back-top>
+      <a-back-top :visibilityHeight="visibilityHeight">
         <div class="toTop">
           <a-icon
             type="arrow-up"
@@ -72,17 +80,34 @@ export default {
     return {
       locale: zhCN,
       isTop: false,
+      visibilityHeight: 500,
     };
   },
+  computed: {
+    getScrollState() {
+      if(this.$store.state.isHome) {
+      return true
+    }else {
+      return this.isTop
+    }
+    }
+  },
   mounted() {
-    window.onscroll = ()=> {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      window.onload = () => {
+        this.$nuxt.$loading.finish();
+      };
+    });
+    this.visibilityHeight = window.innerHeight * 2;
+    window.onscroll = () => {
       if (window.scrollY > 0) {
         this.isTop = true;
       } else {
         this.isTop = false;
       }
     };
-  }
+  },
 };
 </script>
 
@@ -110,22 +135,21 @@ export default {
     z-index: 99999;
     height: 60px;
     line-height: 60px;
-    transition:all .4s ease;
+    transition: all 0.4s ease;
     .logo {
       font-size: 30px;
       a:hover {
         color: #d0344e;
-        
       }
       img {
-          height:36px;
-          vertical-align:-4px;
-        }
+        height: 36px;
+        vertical-align: -4px;
+      }
     }
     .navbar_menu {
       display: flex;
+      justify-content: space-between;
       li {
-        margin: 0 20px;
         a:hover {
           color: #d0344e;
         }
@@ -143,8 +167,8 @@ export default {
     }
   }
   .toTop {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: #d0344e;
     border-radius: 4px;
     display: flex;
