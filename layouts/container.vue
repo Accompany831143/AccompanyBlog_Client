@@ -22,10 +22,12 @@
                     <a-input-search
                       placeholder="请输入搜索内容"
                       :loading="false"
+                      allowClear
+                      @search="onSearch"
                     />
                   </li>
                   <li>
-                    <a-avatar :size="36" icon="user" />
+                    <a-avatar style="cursor:pointer;" @click="avatarHandler" :size="36" icon="user" v-if="$route.name !== 'Login'" />
                   </li>
                 </ul>
               </div>
@@ -83,12 +85,26 @@ export default {
       visibilityHeight: 500,
     };
   },
+  methods:{
+    onSearch(val,e) {
+      if(val) {
+        this.$router.push({name:'Search-value',params:{value:val}})
+      }else {
+        this.$message.warn('请输入搜索内容')
+      }
+    },
+    avatarHandler() {
+      // this.$router.push('/login')
+      this.$router.push('/user')
+
+    }
+  },
   computed: {
     getScrollState() {
       if(this.$store.state.isHome) {
-      return true
-    }else {
       return this.isTop
+    }else {
+      return true
     }
     }
   },
@@ -157,7 +173,6 @@ export default {
     }
   }
   .footer {
-    margin-top: 40px;
     height: 40px;
     line-height: 40px;
     background-color: #fff;

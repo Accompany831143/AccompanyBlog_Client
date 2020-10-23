@@ -53,7 +53,10 @@
                 <div><a-icon type="qq" /></div>
               </div>
             </div>
-            <div class="article_comments">
+            
+          </article>
+          <div class="article_comments boxShadowBase">
+            <p style="margin-bottom:20px;"><b>发表评论</b></p>
               <div class="formContent">
                 <div>
                   <a-textarea
@@ -63,7 +66,7 @@
                     :rows="6"
                   />
                 </div>
-                <div style="margin-top: 20px">
+                <div style="margin-top: 20px;text-align:right;">
                   <a-button style="background: #d0344e; color: #fff"
                     >发表</a-button
                   >
@@ -84,7 +87,6 @@
                 </a-comment>
               </div>
             </div>
-          </article>
         </a-col>
         <a-col span="6" offset="2">
           <div class="channel_list">
@@ -153,7 +155,7 @@ export default {
   },
   created() {
     this.params = this.$route.params;
-    this.$store.commit("changeIsHome", true);
+    this.$store.commit("changeIsHome", false);
   },
   mounted() {
     this.$nextTick(() => {
@@ -169,6 +171,7 @@ export default {
 <style lang='less'>
 .article_detail {
   padding-top: 60px;
+  padding-bottom: 40px;
   min-height: 100vh;
   .container {
     padding-top: 20px;
@@ -226,6 +229,12 @@ export default {
           }
         }
       }
+      
+    }
+    .article_comments {
+      margin-top:40px;
+      background-color: #fff;
+      padding:26px;
       .commentContent {
         margin-top: 20px;
       }
@@ -260,6 +269,7 @@ export default {
               overflow: hidden;
               img {
                 width: 100%;
+                height:100%;
               }
             }
             .rightInfo {

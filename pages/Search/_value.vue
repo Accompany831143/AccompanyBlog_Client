@@ -1,19 +1,15 @@
 <template>
   <div class="aiva_home">
-    <!-- Banner -->
-    <section class="banner" v-show="!$store.state.enableSearch">
-      <div class="container">
-        <h1>欢迎来到Aiva的博客</h1>
-        <h2>愿你所愿 终能实现</h2>
-        <!-- <div>
-          <a-button type="danger" @click="toMain">开始浏览</a-button>
-        </div> -->
-      </div>
-    </section>
-
     <!-- Blog Content  -->
     <section class="aiva_main">
       <div class="container">
+        <p class="search_title">
+          <span>搜索到包含</span>
+          <span class="primaryColor">{{ keyWord }}</span>
+          <span
+            >的结果共 <b>{{ 50 }}</b> 条</span
+          >
+        </p>
         <a-row>
           <a-col span="16">
             <div class="article_list">
@@ -23,8 +19,8 @@
                 :key="item"
               >
                 <div class="img_box">
-                  <nuxt-link :to="'/article/'+item">
-                    <img src="../assets/imgs/banner_bg.jpg" alt="" />
+                  <nuxt-link :to="'/article/' + item">
+                    <img src="../../assets/imgs/banner_bg.jpg" alt="" />
                   </nuxt-link>
                 </div>
                 <div class="article_info">
@@ -51,7 +47,7 @@
                   </div>
                 </div>
                 <h2>
-                  <nuxt-link class="linkColor" :to="'/article/'+item"
+                  <nuxt-link class="linkColor" :to="'/article/' + item"
                     >webpack配置babel</nuxt-link
                   >
                 </h2>
@@ -86,11 +82,13 @@
 </template>
 
 <script>
-import rightList from "@/components/rightList.vue"
+import rightList from "@/components/rightList.vue";
+
 export default {
   layout: "container",
   data() {
     return {
+      keyWord: "",
       channelList:[
         {
           id:1,
@@ -133,151 +131,32 @@ export default {
       ]
     };
   },
-  components:{
-    rightList
-  },
   methods: {
     changePage(page) {},
-    // 获取栏目
-    getChannel() {
-      // this.$axios({
-      //   url:'/api/drontEnd/getAllChannel'
-      // }).then(res => {
-      //   console.log(666,res)
-      // })
-    }
+  },
+  components: {
+    rightList,
   },
   created() {
-    this.$store.commit('changeIsHome',true)
-    this.getChannel()
+    this.$store.commit("changeIsHome", false);
+    this.keyWord = this.$route.params.value;
   },
   mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      window.onload = () => {
-        this.$nuxt.$loading.finish();
-      };
-    });
+    // this.$nextTick(() => {
+    //   this.$nuxt.$loading.start();
+    //   window.onload = () => {
+    //     this.$nuxt.$loading.finish();
+    //   };
+    // });
   },
-
 };
 </script>
 
-<style lang="less">
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-.aiva_home {
-  .banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    background: url("../assets/imgs/banner_bg.jpg") no-repeat 0 0 / cover;
-    .container {
-      padding-top: 60px;
-      height: 100%;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      h1,
-      h2 {
-        opacity: 0;
-        color: #fff;
-        font-weight: normal;
-      }
-      h1 {
-        font-size: 36px;
-        animation: fadeIn 2s ease forwards;
-      }
-      h2 {
-        animation: fadeIn 2s ease 1s forwards;
-        margin: 20px 0 26px 0;
-        font-size: 22px;
-      }
-      // .ant-btn-danger {
-      //   background-color: #d0344e;
-      //   border-color: #d0344e;
-      // }
-    }
-  }
-  .aiva_main {
-    padding-top: 100vh;
-    margin-top: 60px;
-    padding-bottom:40px;
-    .article_list {
-      .article_item {
-        padding: 12px;
-        height: 540px;
-        background-color: #fff;
-        margin-bottom: 80px;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        &:hover {
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-          transform: translateY(-6px);
-        }
-        .img_box {
-          width: 100%;
-          height: 300px;
-          overflow: hidden;
-          img {
-            width: 100%;
-            transition: all 0.4s ease;
-            &:hover {
-              transform: scale(1.2);
-            }
-          }
-        }
-        .article_info {
-          width: 50%;
-          display: flex;
-          margin-top: 16px;
-          & > * {
-            margin-right: 20px;
-          }
-          .channel_tag {
-            width: 100px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-        }
-        h2 {
-          font-weight: normal;
-          margin-top: 16px;
-          width: 80%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          a:hover {
-            color: #d0344e;
-          }
-        }
-        .article_description {
-          color: #999;
-          margin-top: 16px;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
-          overflow: hidden;
-        }
-        button {
-          margin-top: 20px;
-        }
-      }
-    }
-    
+<style lang="less" scoped>
+.aiva_main {
+  padding-top: 60px !important;
+  .search_title {
+    padding-bottom: 20px;
   }
 }
 </style>

@@ -1,9 +1,13 @@
-export const state = {
-    isHome:false
+export const state = () => {
+    return {
+        isHome: false
+    }
+    
+
 }
 
 export const mutations = {
-    changeIsHome(state,flag) {
+    changeIsHome(state, flag) {
         state.isHome = flag
     }
 }
