@@ -155,7 +155,6 @@ export default {
   },
   created() {
     this.params = this.$route.params;
-    this.$store.commit("changeIsHome", false);
   },
   mounted() {
     this.$nextTick(() => {

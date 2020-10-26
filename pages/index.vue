@@ -1,7 +1,7 @@
 <template>
   <div class="aiva_home">
     <!-- Banner -->
-    <section class="banner" v-show="!$store.state.enableSearch">
+    <section class="banner">
       <div class="container">
         <h1>欢迎来到Aiva的博客</h1>
         <h2>愿你所愿 终能实现</h2>
@@ -17,52 +17,7 @@
         <a-row>
           <a-col span="16">
             <div class="article_list">
-              <div
-                class="article_item"
-                v-for="item in [1, 2, 3, 4, 5, 6]"
-                :key="item"
-              >
-                <div class="img_box">
-                  <nuxt-link :to="'/article/'+item">
-                    <img src="../assets/imgs/banner_bg.jpg" alt="" />
-                  </nuxt-link>
-                </div>
-                <div class="article_info">
-                  <a-tooltip>
-                    <template slot="title"
-                      >htmlhtmlhtmlhtmlhtmlhtmlhtmlhtmlhtml</template
-                    >
-                    <a-tag color="#d0344e" class="channel_tag"
-                      >htmlhtmlhtmlhtmlhtmlhtmlhtmlhtmlhtml</a-tag
-                    >
-                  </a-tooltip>
-
-                  <div>
-                    <a-icon type="eye" style="color: #999" />
-                    <span style="color: #999">65</span>
-                  </div>
-                  <div>
-                    <a-icon type="like" style="color: #999" />
-                    <span style="color: #999">32</span>
-                  </div>
-                  <div>
-                    <a-icon type="heart" style="color: #999" />
-                    <span style="color: #999">13</span>
-                  </div>
-                </div>
-                <h2>
-                  <nuxt-link class="linkColor" :to="'/article/'+item"
-                    >webpack配置babel</nuxt-link
-                  >
-                </h2>
-                <div class="article_description">
-                  babel是一个javascript编译器，是前端开发中的一个利器。它突破了浏览器实现es标准的限制，使我们在开发中可以使用最新的javascript语法。
-                  通过构建和babel，可以使用最新js语法进行开发，最后自动编译成用于浏览器或node环境的代码。
-                  babel是一个javascript编译器，是前端开发中的一个利器。它突破了浏览器实现es标准的限制，使我们在开发中可以使用最新的javascript语法。
-                  通过构建和babel，可以使用最新js语法进行开发，最后自动编译成用于浏览器或node环境的代码。
-                </div>
-                <a-button type="primary" ghost>查看文章</a-button>
-              </div>
+              <article-info v-for="item in 5" :key="item" />
               <div style="text-align: center">
                 <a-pagination
                   show-quick-jumper
@@ -75,8 +30,24 @@
           </a-col>
           <a-col span="6" offset="2">
             <div class="channel_list">
+              <div class="menu_item boxShadowBase">
+                <p>
+                  <i></i><span>我的信息</span>
+                </p>
+                <div>Aiva</div>
+                <div>一名前端工程师</div>
+                <div>热爱技术，喜欢钻研</div>
+              </div>
               <rightList :renderData="channelList" title="栏目列表" />
               <rightList :renderData="dateList" title="日期列表" />
+               <div class="menu_item boxShadowBase">
+                <p>
+                  <i></i><span>标签</span>
+                </p>
+                <div class="tag_box">
+                  <a-tag color="blue" v-for="item in 18" :key="item">标签{{item}}</a-tag>
+                </div>
+              </div>
             </div>
           </a-col>
         </a-row>
@@ -86,55 +57,57 @@
 </template>
 
 <script>
-import rightList from "@/components/rightList.vue"
+import rightList from "@/components/rightList.vue";
+import ArticleInfo from '@/components/ArticleInfo.vue'
 export default {
   layout: "container",
   data() {
     return {
-      channelList:[
+      channelList: [
         {
-          id:1,
-          title:'栏目1'
+          id: 1,
+          title: "栏目1",
         },
         {
-          id:2,
-          title:'栏目2'
+          id: 2,
+          title: "栏目2",
         },
         {
-          id:3,
-          title:'栏目3'
+          id: 3,
+          title: "栏目3",
         },
         {
-          id:4,
-          title:'栏目4'
+          id: 4,
+          title: "栏目4",
         },
       ],
-      dateList:[
+      dateList: [
         {
-          id:1,
-          title:'2020年10月'
+          id: 1,
+          title: "2020年10月",
         },
         {
-          id:2,
-          title:'2020年09月'
+          id: 2,
+          title: "2020年09月",
         },
         {
-          id:3,
-          title:'2020年08月'
+          id: 3,
+          title: "2020年08月",
         },
         {
-          id:4,
-          title:'2020年07月'
+          id: 4,
+          title: "2020年07月",
         },
         {
-          id:5,
-          title:'2020年06月'
+          id: 5,
+          title: "2020年06月",
         },
-      ]
+      ],
     };
   },
-  components:{
-    rightList
+  components: {
+    rightList,
+    ArticleInfo
   },
   methods: {
     changePage(page) {},
@@ -145,11 +118,10 @@ export default {
       // }).then(res => {
       //   console.log(666,res)
       // })
-    }
+    },
   },
   created() {
-    this.$store.commit('changeIsHome',true)
-    this.getChannel()
+    this.getChannel();
   },
   mounted() {
     this.$nextTick(() => {
@@ -159,7 +131,6 @@ export default {
       };
     });
   },
-
 };
 </script>
 
@@ -214,70 +185,25 @@ export default {
   .aiva_main {
     padding-top: 100vh;
     margin-top: 60px;
-    padding-bottom:40px;
+    padding-bottom: 40px;
     .article_list {
-      .article_item {
-        padding: 12px;
-        height: 540px;
-        background-color: #fff;
-        margin-bottom: 80px;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        &:hover {
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-          transform: translateY(-6px);
-        }
-        .img_box {
-          width: 100%;
-          height: 300px;
-          overflow: hidden;
-          img {
-            width: 100%;
-            transition: all 0.4s ease;
-            &:hover {
-              transform: scale(1.2);
-            }
-          }
-        }
-        .article_info {
-          width: 50%;
-          display: flex;
-          margin-top: 16px;
-          & > * {
-            margin-right: 20px;
-          }
-          .channel_tag {
-            width: 100px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-        }
-        h2 {
-          font-weight: normal;
-          margin-top: 16px;
-          width: 80%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          a:hover {
-            color: #d0344e;
-          }
-        }
-        .article_description {
-          color: #999;
-          margin-top: 16px;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
-          overflow: hidden;
-        }
-        button {
-          margin-top: 20px;
-        }
-      }
+      
     }
-    
+  }
+}
+.menu_item {
+  &>div {
+    line-height: 30px;
+    &:first-of-type {
+      padding-top:10px;
+    }
+  }
+}
+.tag_box {
+
+  &>* {
+    margin-bottom:10px;
+    cursor: pointer;
   }
 }
 </style>

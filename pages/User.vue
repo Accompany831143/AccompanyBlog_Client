@@ -46,6 +46,9 @@ export default {
       this.activeTitle = router.title
       this.$router.push(router.path)
     }
+  },
+  created() {
+
   }
 };
 </script>

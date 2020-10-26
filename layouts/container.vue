@@ -5,19 +5,20 @@
       <nav :class="{ navbar: true, 'navbar-top': getScrollState }">
         <div class="container">
           <a-row justify="space-between">
-            <a-col span="18">
+            <a-col span="14">
               <div class="logo">
                 <a class="linkColor" href="/"
                   ><img src="../assets/imgs/Aiva.png" alt="Aiva"
                 /></a>
               </div>
             </a-col>
-            <a-col span="6">
+            <a-col span="10">
               <div class="navbar_main">
                 <ul class="navbar_menu">
-                  <!-- <li><nuxt-link class="linkColor" to="">文章</nuxt-link></li> -->
-                  <!-- <li><nuxt-link class="linkColor" to="">案例</nuxt-link></li> -->
-                  <!-- <li><nuxt-link class="linkColor" to="">关于</nuxt-link></li> -->
+                  <li><nuxt-link class="linkColor" to="/timeLine">时间轴</nuxt-link></li>
+                  <li><nuxt-link class="linkColor" to="/about">关于</nuxt-link></li>
+                  <li><nuxt-link class="linkColor" to="/message">留言板</nuxt-link></li>
+
                   <li>
                     <a-input-search
                       placeholder="请输入搜索内容"
@@ -88,7 +89,7 @@ export default {
   methods:{
     onSearch(val,e) {
       if(val) {
-        this.$router.push({name:'Search-value',params:{value:val}})
+        this.$router.push({name:'search-value',params:{value:val}})
       }else {
         this.$message.warn('请输入搜索内容')
       }
