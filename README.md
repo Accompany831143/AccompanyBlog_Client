@@ -1,4 +1,4 @@
-# Accompany博客 前端
+# Aiva博客 前端
 
 > 博客网站前端，采用nuxt框架开发
 
