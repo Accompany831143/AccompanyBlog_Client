@@ -27,7 +27,7 @@
       </div>
     </div>
     <h2>
-      <nuxt-link class="linkColor" :to="'/article/' + item"
+      <nuxt-link class="linkColor" :to="'/article/' + ''"
         >webpack配置babel</nuxt-link
       >
     </h2>
