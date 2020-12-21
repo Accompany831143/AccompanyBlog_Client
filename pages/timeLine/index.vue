@@ -4,12 +4,12 @@
       <a-timeline mode="left" reverse>
         <a-timeline-item
           color="#d0344e"
-          v-for="(item, index) in 10"
-          :key="index"
+          v-for="(item) in articleList"
+          :key="item.articleId"
         >
           <div class="timeLineBox">
-            <a-tag class="dateTag" color="green">2020-12-21 星期三 21:23:15</a-tag>
-            <article-info />
+            <a-tag class="dateTag" color="green">{{item.releaseTime}}</a-tag>
+            <article-info :info="item" />
           </div>
         </a-timeline-item>
       </a-timeline>
@@ -19,14 +19,47 @@
 
 <script>
 import ArticleInfo from "@/components/ArticleInfo.vue";
+import Moment from "moment"
 export default {
   layout: "container",
   data() {
-    return {};
+    return {
+      articleList:[],
+      pageInfo:{
+        current:1,
+        total:0,
+        pageSize:5
+      }
+    };
   },
   components: {
     ArticleInfo,
   },
+  methods:{
+    // 获取文章
+    getArticle(channel='',date='') {
+      this.$axios({
+        url:'/article/latest',
+        params:{
+          channel,
+          date,
+          page:this.pageInfo.current,
+          pageSize:this.pageInfo.pageSize
+        }
+      }).then(res => {
+        res = res.body
+        res.data = res.data.map(item => {
+          item.releaseTime = Moment(item.releaseTime).format('YYYY年MM月DD日 HH:mm:ss')
+          return item
+        })
+        this.articleList = res.data
+        this.pageInfo = res.pageInfo
+      })
+    },
+  },
+  created() {
+    this.getArticle()
+  }
 };
 </script>
 

@@ -3,7 +3,7 @@
     <div class="container">
       <a-row>
         <a-col :span="6">
-          <leftMenu :renderData="leftMenuData" @on-change="changeTab" title="我的资料" />
+          <leftMenu :defaultActive="0" :renderData="leftMenuData" @on-change="changeTab" title="我的资料" />
         </a-col>
         <a-col :span="17" offset="1">
           <div class="infoBox boxShadowBase">

@@ -4,7 +4,6 @@ export default ({app,store}) => {
             store.commit('changeIsHome',true)
         }else {
             store.commit('changeIsHome',false)
-
         }
         fn()
     })

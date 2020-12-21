@@ -1,15 +1,15 @@
 <template>
   <div class="article_item">
     <div class="img_box">
-      <nuxt-link :to="'/article/' + '123'">
-        <img src="../assets/imgs/banner_bg.jpg" alt="" />
+      <nuxt-link :to="'/article/' + info.articleId">
+        <img :src="info.articlePicture" alt="" />
       </nuxt-link>
     </div>
     <div class="article_info">
       <a-tooltip>
-        <template slot="title">htmlhtmlhtmlhtmlhtmlhtmlhtmlhtmlhtml</template>
+        <template slot="title">{{info.containerName}}</template>
         <a-tag color="#d0344e" class="channel_tag"
-          >htmlhtmlhtmlhtmlhtmlhtmlhtmlhtmlhtml</a-tag
+          >{{info.containerName}}</a-tag
         >
       </a-tooltip>
 
@@ -28,19 +28,14 @@
     </div>
     <h2>
       <nuxt-link class="linkColor" :to="'/article/' + ''"
-        >webpack配置babel</nuxt-link
+        >{{info.articleName}}</nuxt-link
       >
     </h2>
     <div class="article_description">
-      babel是一个javascript编译器，是前端开发中的一个利器。它突破了浏览器实现es标准的限制，使我们在开发中可以使用最新的javascript语法。
-      通过构建和babel，可以使用最新js语法进行开发，最后自动编译成用于浏览器或node环境的代码。
-      babel是一个javascript编译器，是前端开发中的一个利器。它突破了浏览器实现es标准的限制，使我们在开发中可以使用最新的javascript语法。
-      通过构建和babel，可以使用最新js语法进行开发，最后自动编译成用于浏览器或node环境的代码。
+      {{info.articleDesc}}
     </div>
     <div class="articleTags">
-      <a-tag color="red">标签1</a-tag>
-      <a-tag color="blue">标签2</a-tag>
-      <a-tag color="pink">标签3</a-tag>
+      <a-tag v-for="item in info.activeTag" :key="item.tagId" :color="item.tagColor" :style="{color:item.tagFontColor}">{{item.tagName}}</a-tag>
     </div>
     <a-button type="primary" ghost>查看文章</a-button>
   </div>
@@ -48,9 +43,14 @@
 
 <script>
 export default {
+  props:{
+    info:Object
+  },
   data() {
     return {};
   },
+  created() {
+  }
 };
 </script>
 <style lang='less'>
@@ -85,7 +85,7 @@ export default {
       margin-right: 20px;
     }
     .channel_tag {
-      width: 100px;
+      max-width: 100px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

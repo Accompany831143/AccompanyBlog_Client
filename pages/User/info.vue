@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <a-form :labelCol="{ span: 2 }" :wrapperCol="{ span: 5, offset: 1 }">
-      <a-form-item
+  <div v-if="userInfo.length > 0">
+    <a-form-model
+      ref="formBox"
+      :model="formData"
+      :rules="validate"
+      :labelCol="{ span: 2 }"
+      :wrapperCol="{ span: 8, offset: 1 }"
+    >
+      <a-form-model-item
         class="info_item"
         v-for="item in userInfo"
         :key="item.type"
         :label="item.label"
+        :prop="item.type"
       >
-        <div v-if="item.type === 'avatar'">
-          <!-- <img
-            :src="item.value"
-            width="50"
-            height="50"
-            style="border-radius: 50%"
-            alt="用户头像"
-          /> -->
+        <div v-if="item.type === 'userAvatar'">
           <a-upload
             name="avatar"
             list-type="picture-card"
@@ -24,77 +24,118 @@
             :before-upload="beforeUpload"
             @change="handleChange"
           >
-            <img v-if="imageUrl" :src="imageUrl" alt="用户头像" />
+            <img v-if="formData.userAvatar" width="100" :src="formData.userAvatar" alt="用户头像" />
           </a-upload>
         </div>
-        <div v-if="item.type === 'sex'">
-          <a-radio-group v-model="item.value" :default-value="1">
+        <div v-else-if="item.type === 'userSex'">
+          <a-radio-group v-model="formData[item.type]">
             <a-radio :value="'0'"> 男 </a-radio>
             <a-radio :value="'1'"> 女 </a-radio>
           </a-radio-group>
         </div>
-        <div v-if="item.type !== 'avatar' && item.type !== 'sex'">
-          <a-input v-model="item.value" />
+        <!-- <div v-if="item.type !== 'userAvatar' && item.type !== 'userSex'"> -->
+        <div v-else>
+          <a-input v-model="formData[item.type]" />
         </div>
-      </a-form-item>
-      <a-form-item label="">
-        <a-button type="primary">提交</a-button>
-        <a-button style="margin-left: 20px">重置</a-button>
-      </a-form-item>
-    </a-form>
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-button type="primary" @click="submit">提交</a-button>
+        <a-button style="margin-left: 20px" @click="getInfo">重置</a-button>
+      </a-form-model-item>
+    </a-form-model>
   </div>
 </template>
 
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+import Env from "../../plugins/envConst"
+
+
 export default {
   data() {
     return {
-      imageUrl: "https://upload.jianshu.io/users/upload_avatars/20584634/dd262f9e-0e9a-4e8c-844a-d987ada4851a.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120",
       loading: false,
-      userInfo: [
-        {
-          type: "avatar",
-          value:
-            "https://upload.jianshu.io/users/upload_avatars/20584634/dd262f9e-0e9a-4e8c-844a-d987ada4851a.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120",
-          label: "头像",
-          isEdit: false,
-        },
-        {
-          type: "userName",
-          value: "666",
-          label: "用户名",
-          isEdit: false,
-        },
-        {
-          type: "phone",
-          value: "18442312342",
-          label: "联系方式",
-          isEdit: false,
-        },
-        {
-          type: "sex",
-          value: "0",
-          label: "性别",
-          isEdit: false,
-        },
-      ],
+      userInfo: [],
+      charType: {
+        userAvatar: "头像",
+        userTel: "手机号码",
+        userName: "用户名",
+        userSex: "性别",
+        userEmail: "邮箱",
+      },
+      validate: {
+        userName: [
+          {
+            tigger: "blur",
+            validator(rule, val, fn) {
+              if (val === "") {
+                fn(new Error("请输入用户名"));
+              } else {
+                let reg = /^[a-zA-Z0-9\u4e00-\u9fa5]{1,20}$/;
+                if (reg.test(val)) {
+                  fn();
+                } else {
+                  fn(new Error("用户名不可包含非法字符"));
+                }
+              }
+            },
+          },
+        ],
+        userTel: [
+          {
+            tigger: "blur",
+            validator(rule, val, fn) {
+              if (val === "") {
+                fn(new Error("请输入手机号码"));
+              } else {
+                let reg = /^[1][3,4,5,7,8，9][0-9]{9}$/;
+                if (reg.test(val)) {
+                  fn();
+                } else {
+                  fn(new Error("请输入正确的手机号码"));
+                }
+              }
+            },
+          },
+        ],
+        userEmail: [
+          {
+            tigger: "blur",
+            validator(rule, val, fn) {
+              if (val === "") {
+                fn(new Error("请输入邮箱"));
+              } else {
+                let reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if (reg.test(val)) {
+                  fn();
+                } else {
+                  fn(new Error("请输入正确的邮箱"));
+                }
+              }
+            },
+          },
+        ],
+      },
+      formData: {
+        userAvatar: "",
+        userTel: "",
+        userName: "",
+        userSex: "",
+        userEmail: "",
+      },
     };
   },
   methods: {
     handleChange(info) {
+      let res = info.file.response
       if (info.file.status === "uploading") {
         return;
       }
       if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.imageUrl = imageUrl;
-        });
+        if(res) {
+          console.log(res)
+          this.$message.success('头像上传成功！')
+        }
+        
       }
     },
     beforeUpload(file) {
@@ -109,8 +150,62 @@ export default {
       }
       return isJpgOrPng && isLt2M;
     },
+    getInfo() {
+      this.$axios({
+        url: "/user/getInfo",
+      }).then((res) => {
+        res = res.body.result;
+        let arr = [];
+        for (let k in res) {
+          if (res.hasOwnProperty(k)) {
+            arr.push({
+              type: k,
+              value: res[k],
+              label: this.charType[k],
+              isEdit: false,
+            });
+          }
+        }
+        arr = arr.filter((item, index) => {
+          return item.label;
+        });
+        arr.forEach((item) => {
+          for (let k in res) {
+            if (this.formData.hasOwnProperty(k)) {
+              if (item.type === k) {
+                this.formData[k] = item.value;
+              }
+            }
+          }
+        });
+        arr = arr.map(item => {
+          if(item.type === 'userAvatar') {
+            item.value = Env.pathUrl + item.value
+            this.formData.userAvatar = item.value
+          }
+          return item
+        })
+        this.userInfo = arr;
+      });
+    },
+    submit() {
+      this.$refs.formBox.validate((flag) => {
+        if (flag) {
+          this.$axios({
+            url: "/user/update",
+            method: "post",
+            data: this.formData,
+          }).then((res) => {
+            this.$message.success("修改成功！");
+            this.getInfo()
+          });
+        }
+      });
+    },
   },
-  created() {},
+  created() {
+    this.getInfo();
+  },
 };
 </script>
 

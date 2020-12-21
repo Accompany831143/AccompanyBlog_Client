@@ -7,31 +7,27 @@
           <span>搜索到包含</span>
           <span class="primaryColor">{{ keyWord }}</span>
           <span
-            >的结果共 <b>{{ 50 }}</b> 条</span
+            >的结果共 <b>{{ pageInfo.total }}</b> 条</span
           >
         </p>
         <div class="resultBox">
-          <div v-for="item in 20" :key="item">
+          <div v-for="item in articleList" :key="item.articleId">
             <a-card hoverable :bordered="true" style="width: 100%">
-              <img
-                slot="cover"
-                alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              />
-              <a-card-meta
-                title="文文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章章"
-                description="文文章文章文章文章文章文章文章文章"
-              >
+              <img slot="cover" alt="example" :src="item.articlePicture" />
+              <a-card-meta :title="item.articleName">
+                <p slot="description" class="cardMetaSlot">
+                  {{ item.articleDesc }}
+                </p>
               </a-card-meta>
             </a-card>
           </div>
         </div>
-        <div style="text-align: center;padding:20px 0;">
+        <div style="text-align: center; padding: 20px 0">
           <a-pagination
             :default-current="1"
-            :total="54"
+            :total="pageInfo.total"
             show-size-changer
-            :pageSizeOptions="['20','40','60']"
+            :pageSizeOptions="['12', '20']"
             :pageSize="pageInfo.pageSize"
             @change="changePage"
             @showSizeChange="onShowSizeChange"
@@ -48,20 +44,40 @@ export default {
   data() {
     return {
       keyWord: "",
-      pageInfo:{
-        pageSize:20
-      }
+      pageInfo: {
+        current: 1,
+        total: 0,
+        pageSize: 12,
+      },
+      articleList: [],
     };
   },
   methods: {
-    changePage(page,pageSize) {},
-    onShowSizeChange(current,size) {
-      this.pageInfo.pageSize = size
-    }
+    // 获取文章
+    getArticle() {
+      this.$axios({
+        url: "/article/search",
+        params: {
+          keyword: this.keyWord,
+          page: this.pageInfo.current,
+          pageSize: this.pageInfo.pageSize,
+        },
+      }).then((res) => {
+        res = res.body;
+        this.articleList = res.data;
+        this.pageInfo = res.pageInfo;
+      });
+    },
+
+    changePage(page, pageSize) {},
+    onShowSizeChange(current, size) {
+      this.pageInfo.pageSize = size;
+    },
   },
 
   created() {
     this.keyWord = this.$route.params.value;
+    this.getArticle();
   },
   mounted() {
     // this.$nextTick(() => {
@@ -96,6 +112,12 @@ export default {
       img {
       }
     }
+  }
+  .cardMetaSlot {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 }
 </style>

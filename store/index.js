@@ -1,6 +1,8 @@
 export const state = () => {
     return {
-        isHome: false
+        isHome: false,
+        logined:false,
+        avatarUrl:''
     }
     
 
@@ -9,5 +11,11 @@ export const state = () => {
 export const mutations = {
     changeIsHome(state, flag) {
         state.isHome = flag
-    }
+    },
+    changeLoginStatus(state,flag) {
+        state.logined = flag
+    },
+    changeAvatarUrl(state,url) {
+        state.avatarUrl = url
+    },
 }

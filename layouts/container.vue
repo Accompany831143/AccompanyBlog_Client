@@ -7,17 +7,27 @@
           <a-row justify="space-between">
             <a-col span="14">
               <div class="logo">
-                <a class="linkColor" href="/"
+                <nuxt-link class="linkColor" to="/"
                   ><img src="../assets/imgs/Aiva.png" alt="Aiva"
-                /></a>
+                /></nuxt-link>
               </div>
             </a-col>
             <a-col span="10">
               <div class="navbar_main">
                 <ul class="navbar_menu">
-                  <li><nuxt-link class="linkColor" to="/timeLine">时间轴</nuxt-link></li>
-                  <li><nuxt-link class="linkColor" to="/about">关于</nuxt-link></li>
-                  <li><nuxt-link class="linkColor" to="/message">留言板</nuxt-link></li>
+                  <li>
+                    <nuxt-link class="linkColor" to="/timeLine"
+                      >时间轴</nuxt-link
+                    >
+                  </li>
+                  <li>
+                    <nuxt-link class="linkColor" to="/about">关于</nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link class="linkColor" to="/message"
+                      >留言板</nuxt-link
+                    >
+                  </li>
 
                   <li>
                     <a-input-search
@@ -28,7 +38,33 @@
                     />
                   </li>
                   <li>
-                    <a-avatar style="cursor:pointer;" @click="avatarHandler" :size="36" icon="user" v-if="$route.name !== 'Login'" />
+                    <a-avatar
+                      style="cursor: pointer"
+                      @click="avatarHandler"
+                      :size="36"
+                      icon="user"
+                      v-if="$route.name !== 'Login' && !$store.state.logined"
+                    />
+                    <a-dropdown
+                      v-if="$route.name !== 'Login' && $store.state.logined"
+                    >
+                      <a
+                        class="ant-dropdown-link"
+                        style="display: block"
+                        @click="(e) => e.preventDefault()"
+                      >
+                        <img :src="$store.state.avatarUrl" width="26" alt="" />
+                        <a-icon type="down" />
+                      </a>
+                      <a-menu slot="overlay">
+                        <a-menu-item>
+                          <nuxt-link to="/user">个人信息</nuxt-link>
+                        </a-menu-item>
+                        <a-menu-item>
+                          <a href="javascript:;" @click="exitUser">退出登录</a>
+                        </a-menu-item>
+                      </a-menu>
+                    </a-dropdown>
                   </li>
                 </ul>
               </div>
@@ -78,38 +114,55 @@
 
 <script>
 import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
+import Env from "../plugins/envConst"
 export default {
   data() {
     return {
       locale: zhCN,
       isTop: false,
       visibilityHeight: 500,
+      showLoginAvatar: true,
+
+      showUserAvatar: false,
     };
   },
-  methods:{
-    onSearch(val,e) {
-      if(val) {
-        this.$router.push({name:'search-value',params:{value:val}})
-      }else {
-        this.$message.warn('请输入搜索内容')
+  methods: {
+    onSearch(val, e) {
+      if (val) {
+        this.$router.push({ name: "Search-value", params: { value: val } });
+      } else {
+        this.$message.warn("请输入搜索内容");
       }
     },
     avatarHandler() {
-      // this.$router.push('/login')
-      this.$router.push('/user')
-
-    }
+      this.$router.push("/login");
+    },
+    exitUser() {
+      sessionStorage.clear();
+      this.$store.commit("changeLoginStatus", false);
+      this.$router.push("/");
+    },
   },
   computed: {
     getScrollState() {
-      if(this.$store.state.isHome) {
-      return this.isTop
-    }else {
-      return true
-    }
-    }
+      if (this.$store.state.isHome) {
+        return this.isTop;
+      } else {
+        return true;
+      }
+    },
   },
+  created() {},
+
   mounted() {
+    let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (userInfo && userInfo.token) {
+      this.$store.commit("changeLoginStatus", true);
+      this.$store.commit(
+        "changeAvatarUrl",
+        Env.pathUrl + userInfo.userInfo.userAvatar
+      );
+    }
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
       window.onload = () => {

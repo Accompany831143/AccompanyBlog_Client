@@ -17,12 +17,12 @@
         <a-row>
           <a-col span="16">
             <div class="article_list">
-              <article-info v-for="item in 5" :key="item" />
+              <article-info v-for="item in articleList" :key="item.aid" :info="item" />
               <div style="text-align: center">
                 <a-pagination
                   show-quick-jumper
                   :default-current="1"
-                  :total="54"
+                  :total="this.pageInfo.total"
                   @change="changePage"
                 />
               </div>
@@ -38,14 +38,14 @@
                 <div>一名前端工程师</div>
                 <div>热爱技术，喜欢钻研</div>
               </div>
-              <rightList :renderData="channelList" title="栏目列表" />
-              <rightList :renderData="dateList" title="日期列表" />
+              <rightList :renderData="channelList" ref="channelRef" title="栏目列表" @on-change="activeItem" />
+              <rightList :renderData="dateList" ref="dateRef" title="日期列表" @on-change="activeItemDate" />
                <div class="menu_item boxShadowBase">
                 <p>
                   <i></i><span>标签</span>
                 </p>
                 <div class="tag_box">
-                  <a-tag color="blue" v-for="item in 18" :key="item">标签{{item}}</a-tag>
+                  <a-tag v-for="item in tagList" :key="item.tagId" :color="item.tagColor" :style="{color:item.tagFontColor}">{{item.tagName}}</a-tag>
                 </div>
               </div>
             </div>
@@ -63,46 +63,17 @@ export default {
   layout: "container",
   data() {
     return {
-      channelList: [
-        {
-          id: 1,
-          title: "栏目1",
-        },
-        {
-          id: 2,
-          title: "栏目2",
-        },
-        {
-          id: 3,
-          title: "栏目3",
-        },
-        {
-          id: 4,
-          title: "栏目4",
-        },
-      ],
-      dateList: [
-        {
-          id: 1,
-          title: "2020年10月",
-        },
-        {
-          id: 2,
-          title: "2020年09月",
-        },
-        {
-          id: 3,
-          title: "2020年08月",
-        },
-        {
-          id: 4,
-          title: "2020年07月",
-        },
-        {
-          id: 5,
-          title: "2020年06月",
-        },
-      ],
+      channelList: [],
+      dateList: [],
+      tagList:[],
+      articleList:[],
+      activeChannel:{},
+      activeDate:'',
+      pageInfo:{
+        total:0,
+        current:1,
+        pageSize:10,
+      }
     };
   },
   components: {
@@ -113,15 +84,72 @@ export default {
     changePage(page) {},
     // 获取栏目
     getChannel() {
-      // this.$axios({
-      //   url:'/api/drontEnd/getAllChannel'
-      // }).then(res => {
-      //   console.log(666,res)
-      // })
+      this.$axios({
+        url:'/channel/latest'
+      }).then(res => {
+        res = res.body.data.map(item => {
+          item.id = item.cid
+          item.title = item.name
+          return item
+        })
+        this.channelList = res
+      })
     },
+    // 获取标签
+    getTag() {
+      this.$axios({
+        url:'/tag/get'
+      }).then(res => {
+        res = res.body.result
+        this.tagList = res
+      })
+    },
+    // 初始化时间
+    initDate() {
+      let t = new Date()
+      let arr = []
+      let count = 5
+      for(let i = 0 ;i < count; i ++) {
+        arr.push(new Date().setMonth(t.getMonth() - i))
+      }
+      arr = arr.map((item,index) => {
+        let date = new Date(item)
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        M = M < 10 ? '0' + M : M
+        return {id:index,title:`${Y}年${M}月`,value:date}
+      })
+      this.dateList = arr
+    },
+    // 获取文章
+    getArticle(channel='',date='') {
+      this.$axios({
+        url:'/article/latest',
+        params:{
+          channel,
+          date,
+          page:this.pageInfo.current,
+          pageSize:this.pageInfo.pageSize
+        }
+      }).then(res => {
+        res = res.body
+        this.articleList = res.data
+        this.pageInfo = res.pageInfo
+      })
+    },
+    activeItemDate(item) {
+      console.log(item)
+      // this.activeChannel = item
+    },
+    activeItem(item) {
+      this.activeChannel = item
+    }
   },
   created() {
     this.getChannel();
+    this.getTag()
+    this.initDate()
+    this.getArticle()
   },
   mounted() {
     this.$nextTick(() => {

@@ -19,12 +19,16 @@
 export default {
     props:{
         title:String,
-        renderData:Array
+        renderData:Array,
+        defaultActive:Number
     },
     data() {
       return {
-        active:0
+        active:''
       }
+    },
+    created() {
+      this.active =  this.defaultActive === 0 ? 0 : this.defaultActive || ''
     },
     methods:{
       activeItem(index) {
