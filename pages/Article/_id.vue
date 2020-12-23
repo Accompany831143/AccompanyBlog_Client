@@ -5,21 +5,26 @@
         <a-col span="16">
           <article class="boxShadowBase">
             <div class="article_header">
-              <h1>{{detail.articleName}}</h1>
+              <h1>{{ detail.articleName }}</h1>
               <p>
                 <span
-                  ><a-icon type="calendar" />&ensp;{{detail.releaseTime}}</span
+                  ><a-icon type="calendar" />&ensp;{{
+                    detail.releaseTime
+                  }}</span
                 >
-                <span><a-icon type="eye" />&ensp;66</span>
-                <span><a-icon type="like" />&ensp;32</span>
-                <span><a-icon type="heart" />&ensp;22</span>
+                <span><a-icon type="eye" />&ensp;{{ detail.look }}</span>
+                <span><a-icon type="like" />&ensp;{{ detail.good }}</span>
+                <span><a-icon type="heart" />&ensp;{{ detail.love }}</span>
                 <span>
                   <a-icon type="appstore" />&ensp;
-                  <b class="ellipsis">{{detail.containerName}}</b>
+                  <b class="ellipsis">{{ detail.containerName }}</b>
                 </span>
               </p>
             </div>
-            <div class="article_body custom-html-style" v-html="detail.articleBody"></div>
+            <div
+              class="article_body custom-html-style"
+              v-html="detail.articleBody"
+            ></div>
             <div class="article_action">
               <div>
                 <a-icon
@@ -50,40 +55,42 @@
                 <div><a-icon type="qq" /></div>
               </div>
             </div>
-            
           </article>
           <div class="article_comments boxShadowBase">
-            <p style="margin-bottom:20px;"><b>发表评论</b></p>
-              <div class="formContent">
-                <div>
-                  <a-textarea
-                    :maxLength="500"
-                    allowClear
-                    placeholder="请输入内容"
-                    :rows="6"
-                  />
-                </div>
-                <div style="margin-top: 20px;text-align:right;">
-                  <a-button style="background: #d0344e; color: #fff"
-                    >发表</a-button
-                  >
-                </div>
+            <p style="margin-bottom: 20px"><b>发表评论</b></p>
+            <div class="formContent">
+              <div>
+                <a-textarea
+                  :maxLength="500"
+                  allowClear
+                  placeholder="请输入内容"
+                  :rows="6"
+                  v-model="commentContent"
+                />
               </div>
-              <div class="commentContent">
-                <a-comment v-for="item in 6" :key="item">
-                  <a slot="author">用户{{ item }}</a>
-                  <a-avatar
-                    slot="avatar"
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    alt="用户01"
-                  />
-                  <p slot="content">这是第{{ item }}条评论</p>
-                  <a-tooltip slot="datetime" title="2020-10-21">
-                    <span>2020-10-21</span>
-                  </a-tooltip>
-                </a-comment>
+              <div style="margin-top: 20px; text-align: right">
+                <a-button
+                  @click="commitMessage"
+                  style="background: #d0344e; color: #fff"
+                  >发表</a-button
+                >
               </div>
             </div>
+            <div class="commentContent">
+              <a-comment v-for="item in 6" :key="item">
+                <a slot="author">用户{{ item }}</a>
+                <a-avatar
+                  slot="avatar"
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  alt="用户01"
+                />
+                <p slot="content">这是第{{ item }}条评论</p>
+                <a-tooltip slot="datetime" title="2020-10-21">
+                  <span>2020-10-21</span>
+                </a-tooltip>
+              </a-comment>
+            </div>
+          </div>
         </a-col>
         <a-col span="6" offset="2">
           <div class="channel_list">
@@ -96,26 +103,25 @@
                       <a-row>
                         <a-col span="8"
                           ><div class="leftImg">
-                            <img
-                              :src="item.articlePicture"
-                              alt=""
-                            /></div
+                            <img :src="item.articlePicture" alt="" /></div
                         ></a-col>
                         <a-col span="13" offset="1">
                           <div class="rightInfo">
                             <a-tooltip>
                               <template slot="title">
-                                {{item.articleName}}</template
+                                {{ item.articleName }}</template
                               >
                               <div class="ellipsis">
-                                {{item.articleName}}
+                                {{ item.articleName }}
                               </div>
                             </a-tooltip>
                             <p>
-                              <a-tag color="#d0344e" class="ellipsis"
-                                >{{item.containerName}}</a-tag
-                              >
-                              <span style="color: #999">{{item.releaseTime}}</span>
+                              <a-tag color="#d0344e" class="ellipsis">{{
+                                item.containerName
+                              }}</a-tag>
+                              <span style="color: #999">{{
+                                item.releaseTime
+                              }}</span>
                             </p>
                           </div>
                         </a-col>
@@ -144,45 +150,106 @@ export default {
         heart: false,
         share: false,
       },
-      detail:{},
-      recommList:[]
+      commentContent: "",
+      detail: {},
+      recommList: [],
     };
   },
   methods: {
     changIcon(type) {
-      this.iconControl[type] = !this.iconControl[type];
+      let typeInfo = {
+        like: {
+          url: "/article/dianZan",
+          data: {
+            good: this.iconControl.like ? -1 : 1,
+            id: this.params.id,
+          },
+        },
+        heart: {
+          url: "/article/love",
+          data: {
+            love: this.iconControl.heart ? -1 : 1,
+            id: this.params.id,
+          },
+        },
+      };
+      if (type === "share") {
+        this.iconControl[type] = !this.iconControl[type];
+      } else {
+        this.$axios(Object.assign({ method: "post" }, typeInfo[type])).then(
+          (res) => {
+            if (res) {
+              this.iconControl[type] = !this.iconControl[type];
+            }
+          }
+        );
+      }
     },
     getArticleDetail() {
       this.$axios({
-        url:'/article/detail',
-        params:{
-          id:this.params.id
+        url: "/article/detail",
+        params: {
+          id: this.params.id,
+        },
+      }).then((res) => {
+        res.body.data.releaseTime = Moment(res.body.data.releaseTime).format(
+          "YYYY年MM月DD日 HH:mm:ss"
+        );
+        this.detail = res.body.data;
+        let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        if (userInfo && userInfo.token) {
+          let user = userInfo.userInfo;
+          if (user.goods.includes(this.detail.articleId)) {
+            this.iconControl.like = true;
+          }
+          if (user.loves.includes(this.detail.articleId)) {
+            this.iconControl.heart = true;
+          }
         }
-      }).then(res => {
-        res.body.data.releaseTime = Moment(res.body.data.releaseTime).format('YYYY年MM月DD日 HH:mm:ss')
-        this.detail = res.body.data
-      })
+      });
     },
-    getRecommArticle(){
+    getRecommArticle() {
       this.$axios({
-        url:'/article/recomm',
-      }).then(res => {
-        res.body.data = res.body.data.map(item => {
-          item.releaseTime = Moment(item.releaseTime).format('YYYY/MM/DD')
-          return item
-        })
-        this.recommList = res.body.data
-      })
-    }
+        url: "/article/recomm",
+      }).then((res) => {
+        res.body.data = res.body.data.map((item) => {
+          item.releaseTime = Moment(item.releaseTime).format("YYYY/MM/DD");
+          return item;
+        });
+        this.recommList = res.body.data;
+      });
+    },
+    addLook() {
+      this.$axios({
+        url: "/article/addEye",
+        method: "post",
+        data: {
+          id: this.params.id,
+        },
+      }).then((res) => {
+        // console.log(res);
+      });
+    },
+    commitMessage() {
+      let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+      if (userInfo && userInfo.token) {
+        if (this.commentContent === "") {
+          this.$message.warn("请输入评论内容！");
+        }
+      } else {
+        this.$message.warn("您还没有登录！");
+      }
+    },
   },
   created() {
     this.params = this.$route.params;
-    this.getArticleDetail()
-    this.getRecommArticle()
+    this.getArticleDetail();
+    this.getRecommArticle();
   },
   mounted() {
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
+      this.addLook();
       window.onload = () => {
         this.$nuxt.$loading.finish();
       };
@@ -239,7 +306,7 @@ export default {
         & > div,
         & > div > div {
           margin-right: 20px;
-          transition:all .4s ease;
+          transition: all 0.4s ease;
           & > .anticon {
             cursor: pointer;
           }
@@ -252,12 +319,11 @@ export default {
           }
         }
       }
-      
     }
     .article_comments {
-      margin-top:40px;
+      margin-top: 40px;
       background-color: #fff;
-      padding:26px;
+      padding: 26px;
       .commentContent {
         margin-top: 20px;
       }
@@ -292,7 +358,7 @@ export default {
               overflow: hidden;
               img {
                 width: 100%;
-                height:100%;
+                height: 100%;
               }
             }
             .rightInfo {

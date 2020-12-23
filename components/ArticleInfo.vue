@@ -15,15 +15,15 @@
 
       <div>
         <a-icon type="eye" style="color: #999" />
-        <span style="color: #999">65</span>
+        <span style="color: #999">{{info.look}}</span>
       </div>
       <div>
         <a-icon type="like" style="color: #999" />
-        <span style="color: #999">32</span>
+        <span style="color: #999">{{info.good}}</span>
       </div>
       <div>
         <a-icon type="heart" style="color: #999" />
-        <span style="color: #999">13</span>
+        <span style="color: #999">{{info.love}}</span>
       </div>
     </div>
     <h2>

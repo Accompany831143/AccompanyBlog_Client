@@ -19,12 +19,19 @@
             name="avatar"
             list-type="picture-card"
             class="avatar-uploader"
+            :headers="uploadHeaders"
+            withCredentials
             :show-upload-list="false"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            :action="uploadUrl"
             :before-upload="beforeUpload"
             @change="handleChange"
           >
-            <img v-if="formData.userAvatar" width="100" :src="formData.userAvatar" alt="用户头像" />
+            <img
+              v-if="formData.userAvatar"
+              width="100"
+              :src="formData.userAvatar"
+              alt="用户头像"
+            />
           </a-upload>
         </div>
         <div v-else-if="item.type === 'userSex'">
@@ -47,13 +54,14 @@
 </template>
 
 <script>
-import Env from "../../plugins/envConst"
-
+import Env from "../../plugins/envConst";
 
 export default {
   data() {
     return {
       loading: false,
+      uploadUrl: Env.baseUrl + "user/uploadAvatar",
+      uploadHeaders: {},
       userInfo: [],
       charType: {
         userAvatar: "头像",
@@ -126,27 +134,26 @@ export default {
   },
   methods: {
     handleChange(info) {
-      let res = info.file.response
+      let res = info.file.response;
       if (info.file.status === "uploading") {
         return;
       }
       if (info.file.status === "done") {
-        if(res) {
-          console.log(res)
-          this.$message.success('头像上传成功！')
+        if (res) {
+          this.getInfo();
+          this.$message.success("头像上传成功！");
         }
-        
       }
     },
     beforeUpload(file) {
       const isJpgOrPng =
         file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
-        this.$message.error("You can only upload JPG file!");
+        this.$message.error("只可以上传 jpg 或者 png 类型的图片！");
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error("Image must smaller than 2MB!");
+        this.$message.error("图片大小不可超过2M!");
       }
       return isJpgOrPng && isLt2M;
     },
@@ -154,6 +161,18 @@ export default {
       this.$axios({
         url: "/user/getInfo",
       }).then((res) => {
+        let userInfo = {
+          token: JSON.parse(sessionStorage.getItem("userInfo")).token,
+          userInfo: {
+            ...res.body.result,
+          },
+        };
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        this.$store.commit("changeLoginStatus", true);
+        this.$store.commit(
+          "changeAvatarUrl",
+          Env.pathUrl + res.body.result.userAvatar
+        );
         res = res.body.result;
         let arr = [];
         for (let k in res) {
@@ -178,13 +197,13 @@ export default {
             }
           }
         });
-        arr = arr.map(item => {
-          if(item.type === 'userAvatar') {
-            item.value = Env.pathUrl + item.value
-            this.formData.userAvatar = item.value
+        arr = arr.map((item) => {
+          if (item.type === "userAvatar") {
+            item.value = Env.pathUrl + item.value;
+            this.formData.userAvatar = item.value;
           }
-          return item
-        })
+          return item;
+        });
         this.userInfo = arr;
       });
     },
@@ -197,11 +216,16 @@ export default {
             data: this.formData,
           }).then((res) => {
             this.$message.success("修改成功！");
-            this.getInfo()
+            this.getInfo();
           });
         }
       });
     },
+  },
+  mounted() {
+    this.uploadHeaders = {
+      Authorization: JSON.parse(sessionStorage.getItem("userInfo")).token,
+    };
   },
   created() {
     this.getInfo();

@@ -16,6 +16,9 @@
               <div class="navbar_main">
                 <ul class="navbar_menu">
                   <li>
+                    <nuxt-link class="linkColor" to="/">首页</nuxt-link>
+                  </li>
+                  <li>
                     <nuxt-link class="linkColor" to="/timeLine"
                       >时间轴</nuxt-link
                     >
@@ -53,7 +56,12 @@
                         style="display: block"
                         @click="(e) => e.preventDefault()"
                       >
-                        <img :src="$store.state.avatarUrl" width="26" alt="" />
+                        <img
+                          :src="$store.state.avatarUrl"
+                          width="26"
+                          style="border-radius: 50%"
+                          alt=""
+                        />
                         <a-icon type="down" />
                       </a>
                       <a-menu slot="overlay">
@@ -114,7 +122,7 @@
 
 <script>
 import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
-import Env from "../plugins/envConst"
+import Env from "../plugins/envConst";
 export default {
   data() {
     return {
@@ -189,6 +197,9 @@ export default {
     .logo > a,
     li > a {
       color: rgba(0, 0, 0, 0.65) !important;
+      &:hover {
+        color: #d0344e !important;
+      }
     }
   }
   .navbar {

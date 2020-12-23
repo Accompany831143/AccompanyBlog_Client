@@ -1,11 +1,11 @@
 const envObject = {
     development:{
         baseUrl:'http://localhost:7758/api/home/',
-        pathUrl:'http://localhost:7758'
+        pathUrl:'http://localhost:7758/'
     },
     production:{
         baseUrl:'https://aiva.vip/api/home/',
-        pathUrl:'https://aiva.vip'
+        pathUrl:'https://aiva.vip/'
 
     }
 
