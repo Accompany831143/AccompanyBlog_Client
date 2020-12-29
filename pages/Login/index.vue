@@ -151,7 +151,7 @@ export default {
           userEmail: "",
         },
         login: {
-          userTel: JSON.parse(localStorage.getItem("userTel")) + "" || "",
+          userTel: localStorage && (localStorage.getItem("userTel") + "" || ""),
           userPassword: "",
         },
         forgetPwd: {
@@ -324,23 +324,30 @@ export default {
               return;
             }
             res = res.body;
-            sessionStorage.setItem("userInfo", JSON.stringify(res));
+            sessionStorage.setItem("token", res.token);
             if (this.keepFlag) {
               localStorage.setItem("userTel", this.formData.login.userTel);
             }
-            this.$message.success("登录成功！");
-            this.formData.login = {
+
+            this.$store.dispatch("getUserInfo",() => {
+              this.formData.login = {
               userTel: "",
               userPassword: "",
             };
-            this.$store.commit("changeLoginStatus", true);
-            this.$store.commit("changeAvatarUrl", Env.pathUrl + res.userInfo.userAvatar);
+              this.$store.commit("changeLoginStatus", true);
+              this.$message.success("登录成功！");
+              this.$router.push("/");
+            });
             
-            this.$router.push("/");
           });
         }
       });
     },
+  },
+  head(){
+    return{
+      title:'登录 - Aiva博客'
+    }
   },
 };
 </script>

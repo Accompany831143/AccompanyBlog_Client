@@ -1,3 +1,9 @@
+<!--
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-29 11:54:06
+ * @FilePath: \AivaBlog_Client\pages\User\index.vue
+-->
 <template>
   <div class="collection">
     <a-list size="large" :data-source="data">
@@ -22,6 +28,11 @@ export default {
         "Los Angeles battles huge wildfires.",
       ],
     };
+  },
+  head(){
+    return{
+      title: '我的收藏- Aiva博客'
+    }
   },
 };
 </script>

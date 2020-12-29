@@ -50,9 +50,11 @@
                 />
               </div>
               <div v-show="iconControl.share">
-                <div><a-icon type="wechat" /></div>
-                <div><a-icon type="weibo-circle" /></div>
-                <div><a-icon type="qq" /></div>
+                <!-- <div><a-icon type="wechat" @click="toShare('weChat')" /></div> -->
+                <div>
+                  <a-icon type="weibo-circle" @click="toShare('weibo')" />
+                </div>
+                <div><a-icon type="qq" @click="toShare('qq')" /></div>
               </div>
             </div>
           </article>
@@ -77,16 +79,12 @@
               </div>
             </div>
             <div class="commentContent">
-              <a-comment v-for="item in 6" :key="item">
-                <a slot="author">用户{{ item }}</a>
-                <a-avatar
-                  slot="avatar"
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  alt="用户01"
-                />
-                <p slot="content">这是第{{ item }}条评论</p>
-                <a-tooltip slot="datetime" title="2020-10-21">
-                  <span>2020-10-21</span>
+              <a-comment v-for="item in messageList" :key="item._id">
+                <a slot="author">{{ item.userName }}</a>
+                <a-avatar slot="avatar" :src="item.userAvatar" alt="用户01" />
+                <p slot="content">{{ item.content }}</p>
+                <a-tooltip slot="datetime" :title="item.releaseTime">
+                  <span>{{ item.releaseTime }}</span>
                 </a-tooltip>
               </a-comment>
             </div>
@@ -153,6 +151,8 @@ export default {
       commentContent: "",
       detail: {},
       recommList: [],
+      messageList: [],
+      desc:''
     };
   },
   methods: {
@@ -176,13 +176,36 @@ export default {
       if (type === "share") {
         this.iconControl[type] = !this.iconControl[type];
       } else {
-        this.$axios(Object.assign({ method: "post" }, typeInfo[type])).then(
-          (res) => {
-            if (res) {
-              this.iconControl[type] = !this.iconControl[type];
+        let token = sessionStorage.getItem("token");
+        if (token) {
+          this.$axios(Object.assign({ method: "post" }, typeInfo[type])).then(
+            (res) => {
+              if (res) {
+                this.iconControl[type] = !this.iconControl[type];
+                this.$store.dispatch("getUserInfo");
+              }
             }
-          }
-        );
+          );
+        } else {
+          this.$message.warn("您还没有登录！");
+          return;
+        }
+      }
+    },
+    toShare(name) {
+      if (name === "weChat") {
+      } else if (name === "qq") {
+        let title = this.detail.articleName;
+        let path = window.location.href;
+        let url = `https://connect.qq.com/widget/shareqq/index.html?url=${path}&title=${title}&pics=${this.detail.articlePicture}`;
+
+        window.open(url, "_blank");
+      } else if (name === "weibo") {
+        let title = this.detail.articleName;
+        let path = window.location.href;
+        let url = `http://service.weibo.com/share/share.php?url=${path}&title=${title}&pic=${this.detail.articlePicture}`;
+
+        window.open(url, "_blank");
       }
     },
     getArticleDetail() {
@@ -196,9 +219,12 @@ export default {
           "YYYY年MM月DD日 HH:mm:ss"
         );
         this.detail = res.body.data;
-        let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-        if (userInfo && userInfo.token) {
-          let user = userInfo.userInfo;
+        this.desc = res.body.data.activeTagInfo.map(item => {
+          return item.tagName
+        }).join(',')
+        let token = sessionStorage.getItem("token");
+        if (token) {
+          let user = this.$store.state.userInfo;
           if (user.goods.includes(this.detail.articleId)) {
             this.iconControl.like = true;
           }
@@ -231,20 +257,52 @@ export default {
       });
     },
     commitMessage() {
-      let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-      if (userInfo && userInfo.token) {
+      let token = sessionStorage.getItem("token");
+      if (token) {
         if (this.commentContent === "") {
           this.$message.warn("请输入评论内容！");
+        } else {
+          let userInfo = this.$store.state.userInfo;
+          this.$axios({
+            url: "/article/message/add",
+            method: "post",
+            data: {
+              content: this.commentContent,
+              id: this.params.id,
+              userName: userInfo.userName,
+              userId: userInfo.userId,
+              userAvatar: userInfo.userAvatar,
+              releaseTime: new Date().getTime(),
+            },
+          }).then((res) => {
+            console.log(res);
+          });
         }
       } else {
         this.$message.warn("您还没有登录！");
       }
+    },
+    getArticleMessage() {
+      this.$axios({
+        url: "/article/message/latest",
+        params: {
+          id: this.params.id,
+        },
+      }).then((res) => {
+        this.messageList = res.body.result.map((item) => {
+          item.releaseTime = this.$Moment(new Date(item.releaseTime)).format(
+            "YYYY年MM月DD日 HH:mm:ss"
+          );
+          return item;
+        });
+      });
     },
   },
   created() {
     this.params = this.$route.params;
     this.getArticleDetail();
     this.getRecommArticle();
+    this.getArticleMessage();
   },
   mounted() {
     this.$nextTick(() => {
@@ -254,6 +312,15 @@ export default {
         this.$nuxt.$loading.finish();
       };
     });
+  },
+  head(){
+    return{
+      title: this.detail.articleName + '- Aiva博客',
+      meta:[
+        { hid: 'description', name: 'description', content:this.detail.articleDesc},
+        { hid: 'keywords', name: 'keywords', content:this.desc},
+      ]
+    }
   },
 };
 </script>

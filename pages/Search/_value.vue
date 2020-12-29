@@ -74,6 +74,11 @@ export default {
       this.pageInfo.pageSize = size;
     },
   },
+  head(){
+    return{
+      title: this.keyWord + ' 的搜索结果'
+    }
+  },
 
   created() {
     this.keyWord = this.$route.params.value;

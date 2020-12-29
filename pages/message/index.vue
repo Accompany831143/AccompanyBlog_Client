@@ -22,15 +22,11 @@
           </div>
           <div class="commentContent">
             <a-comment v-for="item in messageList" :key="item._id">
-              <a slot="author">{{item.userName}}</a>
-              <a-avatar
-                slot="avatar"
-                :src="item.userAvatar"
-                alt="用户01"
-              />
+              <a slot="author">{{ item.userName }}</a>
+              <a-avatar slot="avatar" :src="item.userAvatar" alt="用户01" />
               <p slot="content">{{ item.content }}</p>
               <a-tooltip slot="datetime" title="2020-10-21">
-                <span>{{item.releaseTime}}</span>
+                <span>{{ item.releaseTime }}</span>
               </a-tooltip>
             </a-comment>
           </div>
@@ -41,20 +37,20 @@
 </template>
 
 <script>
-import { months } from 'moment';
-import Env from "../../plugins/envConst"
+import { months } from "moment";
+import Env from "../../plugins/envConst";
 export default {
   layout: "container",
   data() {
     return {
       content: "",
-      messageList:[]
+      messageList: [],
     };
   },
   methods: {
     submit() {
-      let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-      if (userInfo && userInfo.token) {
+      let token = sessionStorage.getItem("token");
+      if (token) {
         if (this.content === "") {
           this.$message.warn("请输入内容！");
         } else {
@@ -66,8 +62,8 @@ export default {
               releaseTime: new Date().getTime(),
             },
           }).then((res) => {
-            this.content = ''
-            this.getMessageList()
+            this.content = "";
+            this.getMessageList();
           });
         }
       } else {
@@ -76,24 +72,38 @@ export default {
     },
     getMessageList() {
       this.$axios({
-            url: "/message/latest",
-            data: {
-              content: this.content,
-              releaseTime: new Date().getTime(),
-            },
-          }).then((res) => {
-            res.body.result = res.body.result.map(item => {
-              item.userAvatar = Env.pathUrl + item.userAvatar
-              item.releaseTime = this.$Moment(new Date(item.releaseTime)).format("YYYY-MM-DD HH:mm:ss")
-              return item 
-            })
-            this.messageList = res.body.result
-          });
-    }
+        url: "/message/latest",
+        data: {
+          content: this.content,
+          releaseTime: new Date().getTime(),
+        },
+      }).then((res) => {
+        res.body.result = res.body.result.map((item) => {
+          item.userAvatar = Env.pathUrl + item.userAvatar;
+          item.releaseTime = this.$Moment(new Date(item.releaseTime)).format(
+            "YYYY-MM-DD HH:mm:ss"
+          );
+          return item;
+        });
+        this.messageList = res.body.result;
+      });
+    },
   },
   created() {
-    this.getMessageList()
-  }
+    this.getMessageList();
+  },
+  head() {
+    return {
+      title: "留言板 - Aiva博客",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Aiva博客的留言板",
+        },
+      ],
+    };
+  },
 };
 </script>
 

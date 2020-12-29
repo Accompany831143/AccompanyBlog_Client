@@ -1,3 +1,9 @@
+<!--
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-29 09:37:34
+ * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
+-->
 <template>
   <div class="timeLine">
     <div class="container">
@@ -56,6 +62,14 @@ export default {
         this.pageInfo = res.pageInfo
       })
     },
+  },
+  head(){
+    return{
+      title: '时间轴 - Aiva博客',
+      meta:[
+        { hid: 'description', name: 'description', content:'Aiva博客的时间轴'}
+      ]
+    }
   },
   created() {
     this.getArticle()

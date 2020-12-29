@@ -1,3 +1,9 @@
+/*
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-29 09:32:02
+ * @FilePath: \AivaBlog_Client\nuxt.config.js
+ */
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -5,7 +11,8 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'Aiva,一名前端工程师，热爱技术，喜欢钻研。' },
+      { hid: 'keywords', name: 'keywords', content: '个人博客,前端开发,技术文章,Aiva,Aiva博客' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

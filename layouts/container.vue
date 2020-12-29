@@ -1,5 +1,5 @@
 <template>
-  <a-locale-provider :locale="locale">
+  <a-config-provider :locale="locale">
     <div class="accompany">
       <!-- 导航 -->
       <nav :class="{ navbar: true, 'navbar-top': getScrollState }">
@@ -57,7 +57,7 @@
                         @click="(e) => e.preventDefault()"
                       >
                         <img
-                          :src="$store.state.avatarUrl"
+                          :src="$store.state.userInfo.userAvatar"
                           width="26"
                           style="border-radius: 50%"
                           alt=""
@@ -117,7 +117,7 @@
         </div>
       </a-back-top>
     </div>
-  </a-locale-provider>
+  </a-config-provider>
 </template>
 
 <script>
@@ -148,6 +148,7 @@ export default {
     exitUser() {
       sessionStorage.clear();
       this.$store.commit("changeLoginStatus", false);
+      this.$store.commit("changeUserInfo", {});
       this.$router.push("/");
     },
   },
@@ -163,13 +164,10 @@ export default {
   created() {},
 
   mounted() {
-    let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    if (userInfo && userInfo.token) {
+    let token = sessionStorage.getItem("token");
+    if (token) {
       this.$store.commit("changeLoginStatus", true);
-      this.$store.commit(
-        "changeAvatarUrl",
-        Env.pathUrl + userInfo.userInfo.userAvatar
-      );
+      this.$store.dispatch('getUserInfo')
     }
     this.$nextTick(() => {
       this.$nuxt.$loading.start();

@@ -1,23 +1,17 @@
+/*
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-28 09:58:04
+ * @FilePath: \AivaBlog_Client\plugins\axios.js
+ */
 import ENV from "./envConst"
 export default function ({ $axios, redirect }) {
-  // $axios.onRequest(config => {
-  //   console.log('Making request to ' + config.url)
-  // })
-
-  // $axios.onError(error => {
-  //   const code = parseInt(error.response && error.response.status)
-  //   if (code === 400) {
-  //     redirect('/400')
-  //   }
-  // })
   $axios.defaults.baseURL = ENV.baseUrl
   $axios.interceptors.request.use(conf => {
-    if(JSON.parse(sessionStorage.getItem('userInfo')) && JSON.parse(sessionStorage.getItem('userInfo')).token) {
-      conf.headers.Authorization = JSON.parse(sessionStorage.getItem('userInfo')).token
+    if(sessionStorage.getItem('token')) {
+      conf.headers.Authorization = sessionStorage.getItem('token')
     }
-    // if(ENV === 'development') {
-      conf.withCredentials = true
-    // }
+    conf.withCredentials = true
     return conf
   })
 

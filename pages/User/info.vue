@@ -158,22 +158,8 @@ export default {
       return isJpgOrPng && isLt2M;
     },
     getInfo() {
-      this.$axios({
-        url: "/user/getInfo",
-      }).then((res) => {
-        let userInfo = {
-          token: JSON.parse(sessionStorage.getItem("userInfo")).token,
-          userInfo: {
-            ...res.body.result,
-          },
-        };
-        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        this.$store.commit("changeLoginStatus", true);
-        this.$store.commit(
-          "changeAvatarUrl",
-          Env.pathUrl + res.body.result.userAvatar
-        );
-        res = res.body.result;
+      this.$store.dispatch('getUserInfo',() => {
+        let res = this.$store.state.userInfo;
         let arr = [];
         for (let k in res) {
           if (res.hasOwnProperty(k)) {
@@ -197,15 +183,8 @@ export default {
             }
           }
         });
-        arr = arr.map((item) => {
-          if (item.type === "userAvatar") {
-            item.value = Env.pathUrl + item.value;
-            this.formData.userAvatar = item.value;
-          }
-          return item;
-        });
         this.userInfo = arr;
-      });
+      })
     },
     submit() {
       this.$refs.formBox.validate((flag) => {
@@ -221,11 +200,17 @@ export default {
         }
       });
     },
+    
   },
   mounted() {
     this.uploadHeaders = {
-      Authorization: JSON.parse(sessionStorage.getItem("userInfo")).token,
+      Authorization: sessionStorage.getItem("token"),
     };
+  },
+  head(){
+    return{
+      title: '我的资料 - Aiva博客'
+    }
   },
   created() {
     this.getInfo();

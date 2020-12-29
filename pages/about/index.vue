@@ -1,3 +1,9 @@
+<!--
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-29 09:35:06
+ * @FilePath: \AivaBlog_Client\pages\about\index.vue
+-->
 <template>
   <div class="about">
     <div class="container">
@@ -55,6 +61,11 @@ export default {
   data() {
     return {};
   },
+  head() {
+    return {
+      title: "关于 - Aiva博客",
+    };
+  },
 };
 </script>
 
@@ -77,8 +88,8 @@ export default {
       .updateInfo {
         ul {
           list-style-type: disc;
-          padding-left:60px;
-          margin-bottom:20px;
+          padding-left: 60px;
+          margin-bottom: 20px;
         }
       }
     }
