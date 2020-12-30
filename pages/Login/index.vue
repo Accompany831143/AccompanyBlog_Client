@@ -151,7 +151,7 @@ export default {
           userEmail: "",
         },
         login: {
-          userTel: localStorage && (localStorage.getItem("userTel") + "" || ""),
+          userTel:'',
           userPassword: "",
         },
         forgetPwd: {
@@ -349,6 +349,9 @@ export default {
       title:'登录 - Aiva博客'
     }
   },
+  mounted() {
+    this.formData.login.userTel = localStorage && (localStorage.getItem("userTel") + "" || "")
+  }
 };
 </script>
 

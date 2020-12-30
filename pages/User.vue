@@ -1,3 +1,9 @@
+<!--
+ * @Date: 2020-11-25 17:04:26
+ * @LastEditors: Aiva
+ * @LastEditTime: 2020-12-30 15:33:16
+ * @FilePath: \AivaBlog_Client\pages\User.vue
+-->
 <template>
   <div class="userInfo">
     <div class="container">
@@ -22,11 +28,11 @@ export default {
   layout:'container',
   data() {
     return {
-      activeTitle:'我的收藏',
+      activeTitle:'我的喜欢',
       leftMenuData:[
         {
           id:1,
-          title:'我的收藏',
+          title:'我的喜欢',
           path:'/user'
         },
         {

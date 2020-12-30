@@ -275,7 +275,8 @@ export default {
               releaseTime: new Date().getTime(),
             },
           }).then((res) => {
-            console.log(res);
+            this.$message.success("发表成功，审核通过后展示！");
+            this.commentContent = ''
           });
         }
       } else {

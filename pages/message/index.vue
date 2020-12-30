@@ -30,6 +30,13 @@
               </a-tooltip>
             </a-comment>
           </div>
+          <div style="text-align: center">
+                <a-pagination
+                  :default-current="1"
+                  :total="this.pageInfo.total"
+                  @change="changePage"
+                />
+              </div>
         </div>
       </div>
     </div>
@@ -45,6 +52,10 @@ export default {
     return {
       content: "",
       messageList: [],
+      pageInfo:{
+        total:0,
+        current:1
+      }
     };
   },
   methods: {
@@ -63,6 +74,7 @@ export default {
             },
           }).then((res) => {
             this.content = "";
+            this.$message.success("发表成功，审核通过后展示！");
             this.getMessageList();
           });
         }
@@ -73,9 +85,8 @@ export default {
     getMessageList() {
       this.$axios({
         url: "/message/latest",
-        data: {
-          content: this.content,
-          releaseTime: new Date().getTime(),
+        params: {
+          page:this.pageInfo.current
         },
       }).then((res) => {
         res.body.result = res.body.result.map((item) => {
@@ -86,8 +97,13 @@ export default {
           return item;
         });
         this.messageList = res.body.result;
+        this.pageInfo = res.body.pageInfo;
       });
     },
+    changePage(page) {
+      this.pageInfo.current = page
+      this.getMessageList()
+    }
   },
   created() {
     this.getMessageList();

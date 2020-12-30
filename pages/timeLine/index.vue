@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-29 09:37:34
+ * @LastEditTime: 2020-12-30 11:07:12
  * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
 -->
 <template>
@@ -11,7 +11,7 @@
         <a-timeline-item
           color="#d0344e"
           v-for="(item) in articleList"
-          :key="item.articleId"
+          :key="item._id"
         >
           <div class="timeLineBox">
             <a-tag class="dateTag" color="green">{{item.releaseTime}}</a-tag>
@@ -19,6 +19,10 @@
           </div>
         </a-timeline-item>
       </a-timeline>
+      <div style="text-align:right;" v-show="articleList.length">
+        <p class="loadMore" @click="addMore" v-if="hasMore">加载更多</p>
+        <p class="loadMore" v-else >没有数据啦</p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +39,8 @@ export default {
         current:1,
         total:0,
         pageSize:5
-      }
+      },
+      hasMore:true
     };
   },
   components: {
@@ -43,12 +48,10 @@ export default {
   },
   methods:{
     // 获取文章
-    getArticle(channel='',date='') {
+    getArticle() {
       this.$axios({
         url:'/article/latest',
         params:{
-          channel,
-          date,
           page:this.pageInfo.current,
           pageSize:this.pageInfo.pageSize
         }
@@ -58,10 +61,18 @@ export default {
           item.releaseTime = Moment(item.releaseTime).format('YYYY年MM月DD日 HH:mm:ss')
           return item
         })
-        this.articleList = res.data
+        this.articleList = this.articleList.concat(res.data)
+        this.articleList = this.articleList.reverse()
         this.pageInfo = res.pageInfo
+        if(res.data.length <= 0) {
+          this.hasMore = false
+        }
       })
     },
+    addMore() {
+      this.pageInfo.current = this.pageInfo.current + 1;
+      this.getArticle()
+    }
   },
   head(){
     return{
@@ -92,5 +103,15 @@ export default {
       margin-bottom:20px;
     }
   }
+}
+.loadMore {
+  display: inline-block;
+  width:700px;
+  margin:-50px 0 50px;
+  padding:10px 0;
+  text-align:center;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius:5px;
 }
 </style>
