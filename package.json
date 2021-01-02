@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nuxt ",
-    "build": "cross-env NODE_ENV=test nuxt build",
-    "start": "cross-env NODE_ENV=production nuxt start",
+    "build": "cross-env NODE_ENV=production nuxt build",
+    "build:test": "cross-env NODE_ENV=test nuxt build",
+    "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
