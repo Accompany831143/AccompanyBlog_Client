@@ -10,12 +10,12 @@ const envObject = {
         pathUrl:'http://localhost:7758/'
     },
     production:{
-        baseUrl:'https://aiva.vip:7758/api/home/',
-        pathUrl:'https://aiva.vip:7758/'
+        baseUrl:'https://aiva.vip/api/home/',
+        pathUrl:'https://aiva.vip/'
     },
     test:{
-        baseUrl:'http://192.168.16.130:7758/api/home/',
-        pathUrl:'http://192.168.16.130:7758/'
+        baseUrl:'http://192.168.16.130/api/home/',
+        pathUrl:'http://192.168.16.130/'
     }
 
 }
