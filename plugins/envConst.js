@@ -1,13 +1,13 @@
 /*
  * @Date: 2020-12-17 17:51:37
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-04 17:13:27
+ * @LastEditTime: 2021-01-04 17:16:21
  * @FilePath: \AivaBlog_Client\plugins\envConst.js
  */
 const envObject = {
     development:{
         baseUrl:'http://localhost:7758/api/home/',
-        pathUrl:'http://localhost:775aiva.vip8/'
+        pathUrl:'http://localhost:7758/'
     },
     production:{
         baseUrl:'https://aiva.vip:7758/api/home/',
