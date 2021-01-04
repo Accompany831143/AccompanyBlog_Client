@@ -1,22 +1,21 @@
 /*
  * @Date: 2020-12-17 17:51:37
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-04 16:54:24
+ * @LastEditTime: 2021-01-04 17:13:27
  * @FilePath: \AivaBlog_Client\plugins\envConst.js
  */
 const envObject = {
     development:{
         baseUrl:'http://localhost:7758/api/home/',
-        pathUrl:'http://localhost:7758/'
+        pathUrl:'http://localhost:775aiva.vip8/'
     },
     production:{
-        baseUrl:'https://blog-server:7758/api/home/',
-        pathUrl:'https://blog-server:7758/'
-
+        baseUrl:'https://aiva.vip:7758/api/home/',
+        pathUrl:'https://aiva.vip:7758/'
     },
     test:{
-        baseUrl:'http://blog-server:7758/api/home/',
-        pathUrl:'http://blog-server:7758/'
+        baseUrl:'http://192.168.16.130:7758/api/home/',
+        pathUrl:'http://192.168.16.130:7758/'
     }
 
 }
