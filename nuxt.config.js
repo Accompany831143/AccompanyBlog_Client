@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-29 09:32:02
+ * @LastEditTime: 2021-01-05 10:49:02
  * @FilePath: \AivaBlog_Client\nuxt.config.js
  */
 export default {
@@ -47,6 +47,9 @@ export default {
   ],
   loading:{
     color:'#d0344e'
+  },
+  env:{
+    NODE_ENV: process.env.NODE_ENV
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
