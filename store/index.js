@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-28 10:28:01
+ * @LastEditTime: 2021-01-05 16:18:45
  * @FilePath: \AivaBlog_Client\store\index.js
  */
 import Env from "../plugins/envConst";
@@ -42,5 +42,13 @@ export const actions = {
                 fn()
             }
         })
+    },
+    addTraffic(context,path) {
+        this.$axios({
+            url:'/access/addTraffic',
+            method:'post',
+            data:{path}
+        })
+        
     }
 }

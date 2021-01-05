@@ -1,10 +1,11 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-28 09:58:04
+ * @LastEditTime: 2021-01-05 17:52:56
  * @FilePath: \AivaBlog_Client\plugins\axios.js
  */
 import ENV from "./envConst"
+import {message} from 'ant-design-vue'
 export default function ({ $axios, redirect }) {
   $axios.defaults.baseURL = ENV.baseUrl
   $axios.interceptors.request.use(conf => {
@@ -24,6 +25,6 @@ export default function ({ $axios, redirect }) {
     }
   },err => {
     console.log(err)
-    window.alert('网络错误！')
+    message.error('网络错误！')
   })
 }

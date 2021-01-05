@@ -350,7 +350,7 @@ export default {
     }
   },
   mounted() {
-    this.formData.login.userTel = localStorage && (localStorage.getItem("userTel") + "" || "")
+    this.formData.login.userTel = localStorage.getItem("userTel") || ""
   }
 };
 </script>

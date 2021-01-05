@@ -96,7 +96,7 @@
               <p><i></i><span>推荐文章</span></p>
               <ul>
                 <li v-for="item in recommList" :key="item.articleId">
-                  <nuxt-link to="">
+                  <nuxt-link :to="'/article/' + item.articleId">
                     <div class="recommArticle">
                       <a-row>
                         <a-col span="8"
