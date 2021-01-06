@@ -316,7 +316,7 @@ export default {
   },
   head(){
     return{
-      title: this.detail.articleName + '- Aiva博客',
+      title: (this.detail.articleName || '文章') + '- Aiva博客',
       meta:[
         { hid: 'description', name: 'description', content:this.detail.articleDesc},
         { hid: 'keywords', name: 'keywords', content:this.desc},

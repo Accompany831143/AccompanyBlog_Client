@@ -164,6 +164,8 @@ export default {
   created() {},
 
   mounted() {
+    console.log('%cAiva',"color:#d0344e;font-size:22px;font-weight:bold;")
+    console.log('%c愿你所愿，终能实现。',"color:#d0344e;font-size:18px;font-weight:bold;")
     let token = sessionStorage.getItem("token");
     if (token) {
       this.$store.commit("changeLoginStatus", true);
