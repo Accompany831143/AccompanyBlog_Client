@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-29 09:35:06
+ * @LastEditTime: 2021-01-07 13:56:43
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -26,7 +26,7 @@
           <h2>关于本站</h2>
           <p style="margin-top: 5px">
             技术栈：
-            <a-tag color="green">Vue</a-tag>
+            <a-tag color="green">Nuxt</a-tag>
             <a-tag color="blue">Express</a-tag>
             <a-tag color="cyan">MongoDB</a-tag>
           </p>
@@ -34,21 +34,19 @@
         <div class="info_item">
           <h2>更新日志</h2>
           <div class="updateInfo">
-            <p><b>2020-12-21</b></p>
+            <p><b>2021-01-08</b></p>
             <ul>
-              <li>123123</li>
-              <li>123123</li>
-              <li>123123</li>
+              <li>1. 新版本上线</li>
             </ul>
           </div>
-          <div class="updateInfo">
+          <!-- <div class="updateInfo">
             <p><b>2020-02-11</b></p>
             <ul>
               <li>123123</li>
               <li>123123</li>
               <li>123123</li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
