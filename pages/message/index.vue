@@ -30,7 +30,7 @@
               </a-tooltip>
             </a-comment>
           </div>
-          <div style="text-align: center">
+          <div style="text-align: center" v-if="pageInfo.total">
                 <a-pagination
                   :default-current="1"
                   :total="this.pageInfo.total"

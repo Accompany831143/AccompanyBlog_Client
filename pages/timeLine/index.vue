@@ -1,13 +1,13 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-30 11:07:12
+ * @LastEditTime: 2021-01-07 13:40:10
  * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
 -->
 <template>
   <div class="timeLine">
     <div class="container">
-      <a-timeline mode="left" reverse>
+      <a-timeline mode="left" reverse v-if="articleList.length">
         <a-timeline-item
           color="#d0344e"
           v-for="(item) in articleList"
@@ -19,10 +19,12 @@
           </div>
         </a-timeline-item>
       </a-timeline>
+      <a-empty v-else />
       <div style="text-align:right;" v-show="articleList.length">
         <p class="loadMore" @click="addMore" v-if="hasMore">加载更多</p>
         <p class="loadMore" v-else >没有数据啦</p>
       </div>
+      
     </div>
   </div>
 </template>
@@ -83,7 +85,7 @@ export default {
     }
   },
   created() {
-    this.getArticle()
+    // this.getArticle()
   }
 };
 </script>

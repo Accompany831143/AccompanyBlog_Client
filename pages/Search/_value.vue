@@ -22,7 +22,7 @@
             </a-card>
           </div>
         </div>
-        <div style="text-align: center; padding: 20px 0">
+        <div style="text-align: center; padding: 20px 0" v-if="pageInfo.total">
           <a-pagination
             :default-current="1"
             :total="pageInfo.total"
@@ -33,6 +33,7 @@
             @showSizeChange="onShowSizeChange"
           />
         </div>
+        <a-empty v-else />
       </div>
     </section>
   </div>

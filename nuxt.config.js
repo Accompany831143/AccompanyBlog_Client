@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-05 10:49:02
+ * @LastEditTime: 2021-01-07 13:13:18
  * @FilePath: \AivaBlog_Client\nuxt.config.js
  */
 export default {
@@ -35,6 +35,15 @@ export default {
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue')
+      })
+    }
+  },
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [

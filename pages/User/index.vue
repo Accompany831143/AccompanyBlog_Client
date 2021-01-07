@@ -1,17 +1,18 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2020-12-30 15:33:04
+ * @LastEditTime: 2021-01-07 13:37:39
  * @FilePath: \AivaBlog_Client\pages\User\index.vue
 -->
 <template>
   <div class="collection">
-    <a-list size="large" :data-source="recommList">
+    <a-list size="large" :data-source="recommList" v-if="recommList.length">
       <a-list-item slot="renderItem" slot-scope="item">
         <nuxt-link :to="'/article/' + item.articleId">{{ item.articleName }}</nuxt-link>
       </a-list-item>
     </a-list>
-    <div style="text-align: center;padding-top:20px;">
+    <a-empty v-else />
+    <div style="text-align: center;padding-top:20px;" v-if="pageInfo.total">
       <a-pagination
         :default-current="1"
         :total="this.pageInfo.total"

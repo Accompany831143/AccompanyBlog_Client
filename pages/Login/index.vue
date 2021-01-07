@@ -300,6 +300,8 @@ export default {
             },
           }).then((res) => {
             this.$message.success("注册成功，请登录！");
+            this.activeKey = '1'
+            this.formData.login.userTel = ''
             this.formData.registered = {
               userName: "",
               userTel: "",
@@ -327,6 +329,8 @@ export default {
             sessionStorage.setItem("token", res.token);
             if (this.keepFlag) {
               localStorage.setItem("userTel", this.formData.login.userTel);
+            }else {
+              localStorage.removeItem('userTel')
             }
 
             this.$store.dispatch("getUserInfo",() => {

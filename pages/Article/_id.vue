@@ -58,7 +58,7 @@
               </div>
             </div>
           </article>
-          <div class="article_comments boxShadowBase">
+          <!-- <div class="article_comments boxShadowBase">
             <p style="margin-bottom: 20px"><b>发表评论</b></p>
             <div class="formContent">
               <div>
@@ -88,7 +88,7 @@
                 </a-tooltip>
               </a-comment>
             </div>
-          </div>
+          </div> -->
         </a-col>
         <a-col span="6" offset="2">
           <div class="channel_list">

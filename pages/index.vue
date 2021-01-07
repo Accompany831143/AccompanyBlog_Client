@@ -22,7 +22,7 @@
                 :key="item.aid"
                 :info="item"
               />
-              <div style="text-align: center">
+              <div style="text-align: center" v-if="pageInfo.total">
                 <a-pagination
                   show-quick-jumper
                   :default-current="1"
@@ -32,7 +32,7 @@
               </div>
             </div>
             <div v-else>
-              <p style="text-align: center; font-size: 30px">暂无数据</p>
+              <a-empty />
             </div>
           </a-col>
           <a-col span="6" offset="2">
