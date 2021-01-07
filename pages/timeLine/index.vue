@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-07 13:40:10
+ * @LastEditTime: 2021-01-07 15:04:32
  * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
 -->
 <template>
@@ -85,7 +85,7 @@ export default {
     }
   },
   created() {
-    // this.getArticle()
+    this.getArticle()
   }
 };
 </script>

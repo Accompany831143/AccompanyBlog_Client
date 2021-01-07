@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-07 13:56:43
+ * @LastEditTime: 2021-01-07 15:13:42
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -77,6 +77,9 @@ export default {
     .info_item {
       font-size: 16px;
       margin-top: 40px;
+      p {
+        line-height:30px;
+      }
       &:first-of-type {
         margin-top: 0;
       }
