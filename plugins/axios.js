@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-05 17:52:56
+ * @LastEditTime: 2021-01-10 11:45:23
  * @FilePath: \AivaBlog_Client\plugins\axios.js
  */
 import ENV from "./envConst"
@@ -21,7 +21,7 @@ export default function ({ $axios, redirect }) {
       return res.data
     }else {
       console.log(res.data)
-      window.alert(res.data.stateMessage)
+      message.warn(res.data.stateMessage)
     }
   },err => {
     console.log(err)
