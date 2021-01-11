@@ -3,7 +3,7 @@
     <div class="container">
       <a-row>
         <a-col span="16">
-          <article class="boxShadowBase">
+          <article class="boxShadowBase" v-if="detail.articleName">
             <div class="article_header">
               <h1>{{ detail.articleName }}</h1>
               <p>
@@ -58,6 +58,9 @@
               </div>
             </div>
           </article>
+          <div v-else>
+            <a-empty></a-empty>
+          </div>
           <!-- <div class="article_comments boxShadowBase">
             <p style="margin-bottom: 20px"><b>发表评论</b></p>
             <div class="formContent">
@@ -138,6 +141,9 @@
 
 <script>
 import Moment from "moment";
+import Axios from "axios";
+import ENV from "../../plugins/envConst";
+Axios.defaults.baseURL = ENV.baseUrl;
 export default {
   layout: "container",
   data() {
@@ -152,7 +158,7 @@ export default {
       detail: {},
       recommList: [],
       messageList: [],
-      desc:''
+      desc: "",
     };
   },
   methods: {
@@ -219,9 +225,11 @@ export default {
           "YYYY年MM月DD日 HH:mm:ss"
         );
         this.detail = res.body.data;
-        this.desc = res.body.data.activeTagInfo.map(item => {
-          return item.tagName
-        }).join(',')
+        this.desc = res.body.data.activeTagInfo
+          .map((item) => {
+            return item.tagName;
+          })
+          .join(",");
         let token = sessionStorage.getItem("token");
         if (token) {
           let user = this.$store.state.userInfo;
@@ -276,34 +284,34 @@ export default {
             },
           }).then((res) => {
             this.$message.success("发表成功，审核通过后展示！");
-            this.commentContent = ''
+            this.commentContent = "";
           });
         }
       } else {
         this.$message.warn("您还没有登录！");
       }
     },
-    getArticleMessage() {
-      this.$axios({
-        url: "/article/message/latest",
-        params: {
-          id: this.params.id,
-        },
-      }).then((res) => {
-        this.messageList = res.body.result.map((item) => {
-          item.releaseTime = this.$Moment(new Date(item.releaseTime)).format(
-            "YYYY年MM月DD日 HH:mm:ss"
-          );
-          return item;
-        });
-      });
-    },
+    // getArticleMessage() {
+    //   this.$axios({
+    //     url: "/article/message/latest",
+    //     params: {
+    //       id: this.params.id,
+    //     },
+    //   }).then((res) => {
+    //     this.messageList = res.body.result.map((item) => {
+    //       item.releaseTime = this.$Moment(new Date(item.releaseTime)).format(
+    //         "YYYY年MM月DD日 HH:mm:ss"
+    //       );
+    //       return item;
+    //     });
+    //   });
+    // },
   },
   created() {
     this.params = this.$route.params;
     this.getArticleDetail();
     this.getRecommArticle();
-    this.getArticleMessage();
+    // this.getArticleMessage();
   },
   mounted() {
     this.$nextTick(() => {
@@ -314,14 +322,41 @@ export default {
       };
     });
   },
-  head(){
-    return{
-      title: (this.detail.articleName || '文章') + '- Aiva博客',
-      meta:[
-        { hid: 'description', name: 'description', content:this.detail.articleDesc},
-        { hid: 'keywords', name: 'keywords', content:this.desc},
-      ]
-    }
+  head() {
+    return {
+      title: this.detail.articleName,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.detail.articleDesc,
+        },
+        { hid: "keywords", name: "keywords", content: this.desc },
+      ],
+    };
+  },
+  async asyncData(params) {
+    let res = await params.$axios({
+      url: "/article/detail",
+      params: {
+        id: params.params.id,
+      },
+    });
+    res.body.data.releaseTime = Moment(res.body.data.releaseTime).format(
+      "YYYY年MM月DD日 HH:mm:ss"
+    );
+    let detail = res.body.data;
+    let desc = res.body.data.activeTagInfo
+      .map((item) => {
+        return item.tagName;
+      })
+      .join(",");
+      console.log(detail,desc)
+    return {
+      detail,
+      desc
+    };
+    params.next()
   },
 };
 </script>

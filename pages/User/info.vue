@@ -187,6 +187,9 @@ export default {
       })
     },
     submit() {
+      this.formData.userAvatar = this.formData.userAvatar.replace(Env.pathUrl,'')
+      // console.log(this.formData)
+      // return
       this.$refs.formBox.validate((flag) => {
         if (flag) {
           this.$axios({
@@ -218,7 +221,7 @@ export default {
 };
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .info_item {
   display: flex;
   .change {

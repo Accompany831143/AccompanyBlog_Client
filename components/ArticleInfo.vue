@@ -27,7 +27,7 @@
       </div>
     </div>
     <h2>
-      <nuxt-link class="linkColor" :to="'/article/' + ''"
+      <nuxt-link class="linkColor" :to="'/article/' + info.articleId"
         >{{info.articleName}}</nuxt-link
       >
     </h2>
