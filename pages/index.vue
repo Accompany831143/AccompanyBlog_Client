@@ -14,15 +14,15 @@
     <!-- Blog Content  -->
     <section class="aiva_main">
       <div class="container">
-        <a-row>
-          <a-col span="16">
-            <div class="article_list" v-if="articleList.length">
+        <a-row justify="space-between">
+          <a-col :xs="24" :sm="24" :md="24" :xl="16">
+            <div class="article_list resPadding" v-if="articleList.length">
               <article-info
                 v-for="item in articleList"
                 :key="item.aid"
                 :info="item"
               />
-              <div style="text-align: center" v-if="pageInfo.total">
+              <div style="text-align: center;margin-bottom:36px;" v-if="pageInfo.total">
                 <a-pagination
                   show-quick-jumper
                   :default-current="1"
@@ -31,12 +31,12 @@
                 />
               </div>
             </div>
-            <div v-else>
+            <div style="margin-bottom:36px;" v-else>
               <a-empty />
             </div>
           </a-col>
-          <a-col span="6" offset="2">
-            <div class="channel_list">
+          <a-col :xs="24" :sm="24" :md="24" :xl="6" :push="channelColPush">
+            <div class="channel_list resPadding channelList-m-t">
               <div class="menu_item boxShadowBase">
                 <p><i></i><span>我的信息</span></p>
                 <div>Aiva</div>
@@ -95,6 +95,7 @@ export default {
         current: 1,
         pageSize: 10,
       },
+      channelColPush:2
     };
   },
   components: {
@@ -204,6 +205,9 @@ export default {
     this.getArticle();
   },
   mounted() {
+    if(window.innerWidth <= 1200) {
+      this.channelColPush = 0
+    }
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
       window.onload = () => {
@@ -246,6 +250,7 @@ export default {
         opacity: 0;
         color: #fff;
         font-weight: normal;
+        margin-left:16px;
       }
       h1 {
         font-size: 36px;
@@ -254,6 +259,7 @@ export default {
       h2 {
         animation: fadeIn 2s ease 1s forwards;
         margin: 20px 0 26px 0;
+        margin-left:16px;
         font-size: 22px;
       }
       // .ant-btn-danger {

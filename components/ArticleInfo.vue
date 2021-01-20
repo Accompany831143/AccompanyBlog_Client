@@ -56,7 +56,7 @@ export default {
 <style lang='less'>
 .article_item {
   padding: 12px;
-  height: 580px;
+  max-height: 580px;
   background-color: #fff;
   margin-bottom: 80px;
   overflow: hidden;
@@ -67,7 +67,7 @@ export default {
   }
   .img_box {
     width: 100%;
-    height: 300px;
+    max-height: 300px;
     overflow: hidden;
     img {
       width: 100%;
@@ -78,7 +78,7 @@ export default {
     }
   }
   .article_info {
-    width: 50%;
+    width: 100%;
     display: flex;
     margin-top: 16px;
     & > * {

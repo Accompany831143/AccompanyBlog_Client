@@ -2,7 +2,7 @@
   <div class="article_detail">
     <div class="container">
       <a-row>
-        <a-col span="16">
+        <a-col :xs="24" :sm="24" :md="24" :xl="16">
           <article class="boxShadowBase" v-if="detail.articleName">
             <div class="article_header">
               <h1>{{ detail.articleName }}</h1>
@@ -58,7 +58,7 @@
               </div>
             </div>
           </article>
-          <div v-else>
+          <div style="margin-bottom:36px;" v-else>
             <a-empty></a-empty>
           </div>
           <!-- <div class="article_comments boxShadowBase">
@@ -93,7 +93,7 @@
             </div>
           </div> -->
         </a-col>
-        <a-col span="6" offset="2">
+        <a-col :xs="24" :sm="24" :md="24" :xl="6" :push="channelColPush">
           <div class="channel_list">
             <div class="menu_item boxShadowBase">
               <p><i></i><span>推荐文章</span></p>
@@ -159,6 +159,7 @@ export default {
       recommList: [],
       messageList: [],
       desc: "",
+      channelColPush:2
     };
   },
   methods: {
@@ -314,6 +315,13 @@ export default {
     // this.getArticleMessage();
   },
   mounted() {
+    if(window.innerWidth <= 1200) {
+      this.channelColPush = 0
+      document.querySelector('.navbar').style.display = 'none'
+      document.querySelector('.article_detail').style.paddingTop = 0
+      document.querySelector('.article_detail .container').style.paddingTop = 0
+      
+    }
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
       this.addLook();
@@ -363,14 +371,16 @@ export default {
 
 <style lang='less'>
 .article_detail {
-  padding-top: 60px;
+  padding-top: 115px;
   padding-bottom: 40px;
   min-height: 100vh;
   .container {
     padding-top: 20px;
+    
     article {
       background-color: #fff;
       padding: 26px;
+      margin-bottom: 36px;
       .article_header {
         border-bottom: 1px solid #ddd;
         padding-bottom: 20px;

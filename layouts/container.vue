@@ -5,14 +5,14 @@
       <nav :class="{ navbar: true, 'navbar-top': getScrollState }">
         <div class="container">
           <a-row justify="space-between">
-            <a-col span="14">
+            <a-col :xs="10" :sm="10" :md="10" :xl="14">
               <div class="logo">
                 <nuxt-link class="linkColor" to="/"
                   ><img src="../assets/imgs/Aiva.png" alt="Aiva"
                 /></nuxt-link>
               </div>
             </a-col>
-            <a-col span="10">
+            <a-col :xs="0" :sm="0" :md="0" :xl="10">
               <div class="navbar_main">
                 <ul class="navbar_menu">
                   <li>
@@ -85,26 +85,36 @@
 
       <footer class="footer">
         <div class="container">
-          <span>Copyright © 2020 By Aiva. All Rights Reserved</span>
-          <a href="http://beian.miit.gov.cn/" target="_blank"
-            >豫ICP备20001126号</a
-          >
-          <span>
-            邮箱：
-            <a href="mailto:Accompany_zhao@163.com">Accompany_zhao@163.com</a>
-          </span>
-
-          <span>
-            <a href="https://github.com/Accompany831143" target="_blank">
-              <a-icon type="github"></a-icon>
-            </a>
-            <a
-              style="margin-left: 16px"
-              href="https://www.jianshu.com/u/9ff01840573a"
-              target="_blank"
-              >简书</a
-            >
-          </span>
+          <a-row type="flex" justify="space-between" class="res-pd-l">
+            <a-col :xs="24" :sm="12" :md="12" :xl="6">
+              <span>Copyright © 2020 By Aiva. All Rights Reserved</span>
+            </a-col>
+            <a-col :xs="24" :sm="12" :md="12" :xl="5">
+              <span>
+                邮箱：
+                <a href="mailto:Accompany_zhao@163.com"
+                  >Accompany_zhao@163.com</a
+                >
+              </span>
+            </a-col>
+            <a-col :xs="24" :sm="24" :md="24" :xl="5" class="res-text-left" style="text-align:right;">
+              
+              <span>
+                <a href="http://beian.miit.gov.cn/" target="_blank"
+                >豫ICP备20001126号</a
+              >
+                <a href="https://github.com/Accompany831143" target="_blank" style="margin-left: 16px">
+                  <a-icon type="github"></a-icon>
+                </a>
+                <a
+                  style="margin-left: 16px"
+                  href="https://www.jianshu.com/u/9ff01840573a"
+                  target="_blank"
+                  >简书</a
+                >
+              </span>
+            </a-col>
+          </a-row>
         </div>
       </footer>
 
@@ -164,12 +174,15 @@ export default {
   created() {},
 
   mounted() {
-    console.log('%cAiva',"color:#d0344e;font-size:22px;font-weight:bold;")
-    console.log('%c愿你所愿，终能实现。',"color:#d0344e;font-size:18px;font-weight:bold;")
+    console.log("%cAiva", "color:#d0344e;font-size:22px;font-weight:bold;");
+    console.log(
+      "%c愿你所愿，终能实现。",
+      "color:#d0344e;font-size:18px;font-weight:bold;"
+    );
     let token = sessionStorage.getItem("token");
     if (token) {
       this.$store.commit("changeLoginStatus", true);
-      this.$store.dispatch('getUserInfo')
+      this.$store.dispatch("getUserInfo");
     }
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
@@ -177,6 +190,10 @@ export default {
         this.$nuxt.$loading.finish();
       };
     });
+    if (window.innerWidth <= 1200) {
+      document.querySelector(".navbar").style.position = "absolute";
+      return;
+    }
     this.visibilityHeight = window.innerHeight * 2;
     window.onscroll = () => {
       if (window.scrollY > 0) {
@@ -214,8 +231,8 @@ export default {
     left: 0;
     width: 100%;
     z-index: 99999;
-    height: 60px;
-    line-height: 60px;
+    height: 95px;
+    line-height: 95px;
     transition: all 0.4s ease;
     .logo {
       font-size: 30px;
@@ -223,7 +240,7 @@ export default {
         color: #d0344e;
       }
       img {
-        height: 36px;
+        // height: 36px;
         vertical-align: -4px;
       }
     }
@@ -244,6 +261,10 @@ export default {
     .container {
       display: flex;
       justify-content: space-between;
+    }
+    .ant-row-flex {
+      background-color: #fff;
+      width:100%;
     }
   }
   .toTop {

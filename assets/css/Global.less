@@ -53,11 +53,40 @@ ul {
 }
 
 .container {
-    width:1200px;
+    max-width:1200px;
     margin-right: auto;
     margin-left: auto;
 }
 
 .ant-message {
     top:80px;
+}
+
+
+@media only screen and (max-width: 1200px),
+only screen and (max-device-width:1200px) {
+
+  .resPadding {
+      padding:0 16px;
+  }
+
+  .res-text-left {
+      text-align:left !important;
+  }
+
+  .res-pd-l {
+      padding-left:16px;
+  }
+
+  .article_header>p {
+      display: block !important;
+      &>span:first-of-type, 
+      &>span:last-of-type {
+        display: block;
+      }
+      &>span:last-of-type {
+          display: flex !important;
+          align-items: center;
+      }
+  }
 }
