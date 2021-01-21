@@ -12,7 +12,12 @@
         </p>
         <div class="resultBox">
           <div v-for="item in articleList" :key="item._id">
-            <a-card hoverable :bordered="true" style="width: 100%" @click="toArticle(item)">
+            <a-card
+              hoverable
+              :bordered="true"
+              style="width: 100%"
+              @click="toArticle(item)"
+            >
               <img slot="cover" alt="example" :src="item.articlePicture" />
               <a-card-meta :title="item.articleName">
                 <p slot="description" class="cardMetaSlot">
@@ -71,39 +76,31 @@ export default {
     },
 
     changePage(page, pageSize) {
-      this.pageInfo.current = page
-      this.getArticle()
+      this.pageInfo.current = page;
+      this.getArticle();
     },
     onShowSizeChange(current, size) {
       this.pageInfo.pageSize = size;
     },
     toArticle(item) {
       this.$router.push({
-        name:'Article-id',
-        params:{
-          id:item.articleId
-        }
-      })
-    }
+        name: "Article-id",
+        params: {
+          id: item.articleId,
+        },
+      });
+    },
   },
-  head(){
-    return{
-      title: this.keyWord + ' 的搜索结果'
-    }
+  head() {
+    return {
+      title: this.keyWord + " 的搜索结果",
+    };
   },
 
   created() {
     this.keyWord = this.$route.params.value;
     this.getArticle();
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   this.$nuxt.$loading.start();
-    //   window.onload = () => {
-    //     this.$nuxt.$loading.finish();
-    //   };
-    // });
-  },
+  }
 };
 </script>
 
@@ -112,7 +109,7 @@ export default {
   min-height: calc(100vh - 60px);
   background-color: #fff;
   .search_title {
-    padding-top: 80px;
+    padding-top: 115px;
     padding-bottom: 20px;
   }
   .resultBox {

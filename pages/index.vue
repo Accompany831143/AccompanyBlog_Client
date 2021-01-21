@@ -22,7 +22,10 @@
                 :key="item.aid"
                 :info="item"
               />
-              <div style="text-align: center;margin-bottom:36px;" v-if="pageInfo.total">
+              <div
+                style="text-align: center; margin-bottom: 36px"
+                v-if="pageInfo.total"
+              >
                 <a-pagination
                   show-quick-jumper
                   :default-current="1"
@@ -31,7 +34,7 @@
                 />
               </div>
             </div>
-            <div style="margin-bottom:36px;" v-else>
+            <div style="margin-bottom: 36px" v-else>
               <a-empty />
             </div>
           </a-col>
@@ -95,7 +98,7 @@ export default {
         current: 1,
         pageSize: 10,
       },
-      channelColPush:2
+      channelColPush: 2,
     };
   },
   components: {
@@ -168,8 +171,8 @@ export default {
         res = res.body;
         this.articleList = res.data;
         this.pageInfo = res.pageInfo;
-        if(this.activeChannel || this.activeDate || this.activeTagId) {
-          window ? window.scrollTo(0,window.innerHeight - 50) : ''
+        if (this.activeChannel || this.activeDate || this.activeTagId) {
+          window ? window.scrollTo(0, window.innerHeight - 50) : "";
         }
       });
     },
@@ -205,15 +208,9 @@ export default {
     this.getArticle();
   },
   mounted() {
-    if(window.innerWidth <= 1200) {
-      this.channelColPush = 0
+    if (window.innerWidth <= 1200) {
+      this.channelColPush = 0;
     }
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      window.onload = () => {
-        this.$nuxt.$loading.finish();
-      };
-    });
   },
 };
 </script>
@@ -250,7 +247,7 @@ export default {
         opacity: 0;
         color: #fff;
         font-weight: normal;
-        margin-left:16px;
+        margin-left: 16px;
       }
       h1 {
         font-size: 36px;
@@ -259,7 +256,7 @@ export default {
       h2 {
         animation: fadeIn 2s ease 1s forwards;
         margin: 20px 0 26px 0;
-        margin-left:16px;
+        margin-left: 16px;
         font-size: 22px;
       }
       // .ant-btn-danger {

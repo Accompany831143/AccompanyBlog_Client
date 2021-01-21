@@ -97,13 +97,23 @@
                 >
               </span>
             </a-col>
-            <a-col :xs="24" :sm="24" :md="24" :xl="5" class="res-text-left" style="text-align:right;">
-              
+            <a-col
+              :xs="24"
+              :sm="24"
+              :md="24"
+              :xl="5"
+              class="res-text-left"
+              style="text-align: right"
+            >
               <span>
                 <a href="http://beian.miit.gov.cn/" target="_blank"
-                >豫ICP备20001126号</a
-              >
-                <a href="https://github.com/Accompany831143" target="_blank" style="margin-left: 16px">
+                  >豫ICP备20001126号</a
+                >
+                <a
+                  href="https://github.com/Accompany831143"
+                  target="_blank"
+                  style="margin-left: 16px"
+                >
                   <a-icon type="github"></a-icon>
                 </a>
                 <a
@@ -126,6 +136,35 @@
           ></a-icon>
         </div>
       </a-back-top>
+
+      <div id="loading" v-show="$store.state.isLoading">
+        <div class="main">
+          <a-icon
+            type="setting"
+            theme="twoTone"
+            two-tone-color="#d0344e"
+            spin
+          />
+          <a-icon
+            type="setting"
+            theme="twoTone"
+            two-tone-color="#dc7637"
+            spin
+          />
+          <a-icon
+            type="setting"
+            theme="twoTone"
+            two-tone-color="#a42982"
+            spin
+          />
+          <a-icon
+            type="setting"
+            theme="twoTone"
+            two-tone-color="#55bc2f"
+            spin
+          />
+        </div>
+      </div>
     </div>
   </a-config-provider>
 </template>
@@ -185,9 +224,8 @@ export default {
       this.$store.dispatch("getUserInfo");
     }
     this.$nextTick(() => {
-      this.$nuxt.$loading.start();
       window.onload = () => {
-        this.$nuxt.$loading.finish();
+        this.$store.commit('changeLoading',false)
       };
     });
     if (window.innerWidth <= 1200) {
@@ -264,7 +302,7 @@ export default {
     }
     .ant-row-flex {
       background-color: #fff;
-      width:100%;
+      width: 100%;
     }
   }
   .toTop {
@@ -275,6 +313,62 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  #loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+    z-index: 999999;
+    .main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 95px;
+      height: 95px;
+      // background-color: #f8f8f8;
+      & > i {
+        font-size: 50px;
+        position: absolute;
+      }
+      @animate:loading1 1.6s ease infinite alternate;
+      & > i:first-of-type {
+        top: 0;
+        left: 0;
+        animation: @animate;
+        z-index: 999;
+      }
+      & > i:nth-of-type(2) {
+        top: 0;
+        right: 0;
+        animation: @animate;
+      }
+      & > i:nth-of-type(3) {
+        bottom: 0;
+        left: 0;
+        animation: @animate;
+      }
+      & > i:last-of-type {
+        bottom: 0;
+        right: 0;
+        animation: @animate;
+      }
+    }
+  }
+}
+@keyframes loading1 {
+  from {
+    opacity: 1;
+  }
+  to {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.1;
   }
 }
 </style>

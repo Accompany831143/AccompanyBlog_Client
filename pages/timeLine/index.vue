@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-07 15:04:32
+ * @LastEditTime: 2021-01-21 10:51:21
  * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
 -->
 <template>
@@ -93,7 +93,7 @@ export default {
 <style lang='less' scoped>
 .timeLine {
   // background-color: #fff;
-  padding-top: 100px;
+  padding-top: 115px;
   min-height: calc(100vh - 40px);
   .container {
     width: 740px;

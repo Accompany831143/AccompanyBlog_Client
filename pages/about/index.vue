@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-07 15:13:42
+ * @LastEditTime: 2021-01-21 11:00:02
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -33,12 +33,20 @@
         </div>
         <div class="info_item">
           <h2>更新日志</h2>
-          <div class="updateInfo">
-            <p><b>2021-01-08</b></p>
+          <div class="updateInfo" v-for="item in updateLogs.reverse()" :key="item.tag">
+            <p><b>{{item.tag}}</b></p>
+            <p><a-tag>{{item.date}}</a-tag></p>
+            <ul>
+              <li v-for="i in item.logs" :key="i">{{i}}</li>
+            </ul>
+          </div>
+          <!-- <div class="updateInfo">
+            <p><b>1.0.0</b></p>
+            <p><a-tag>2021-01-08</a-tag></p>
             <ul>
               <li>1. 新版本上线</li>
             </ul>
-          </div>
+          </div> -->
           <!-- <div class="updateInfo">
             <p><b>2020-02-11</b></p>
             <ul>
@@ -57,7 +65,27 @@
 export default {
   layout: "container",
   data() {
-    return {};
+    return {
+      updateLogs:[
+        {
+          id:1,
+          tag:'1.0.0',
+          date:'2021-01-08',
+          logs:[
+            "1. 新版本上线"
+          ]
+        },
+        {
+          id:2,
+          tag:'1.0.1',
+          date:'2021-01-21',
+          logs:[
+            "1. 移动端显示优化",
+            "2. 修复了一些小问题"
+          ]
+        },
+      ]
+    };
   },
   head() {
     return {
@@ -69,7 +97,7 @@ export default {
 
 <style lang='less' scoped>
 .about {
-  padding-top: 80px;
+  padding-top: 115px;
   min-height: calc(100vh - 40px);
   background-color: #fff;
   padding-bottom: 20px;
@@ -87,6 +115,9 @@ export default {
         padding-bottom: 10px;
       }
       .updateInfo {
+        p>b {
+          font-size:20px;
+        }
         ul {
           list-style-type: disc;
           padding-left: 60px;

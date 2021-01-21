@@ -361,7 +361,7 @@ export default {
 
 <style lang='less'>
 .loginBox {
-  padding-top: 60px;
+  padding-top: 115px;
   height: calc(100vh - 40px);
   background: url("../../assets/imgs/banner_bg.jpg") no-repeat 0 0 / cover;
   .container {

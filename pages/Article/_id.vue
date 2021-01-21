@@ -58,7 +58,7 @@
               </div>
             </div>
           </article>
-          <div style="margin-bottom:36px;" v-else>
+          <div style="margin-bottom: 36px" v-else>
             <a-empty></a-empty>
           </div>
           <!-- <div class="article_comments boxShadowBase">
@@ -159,7 +159,7 @@ export default {
       recommList: [],
       messageList: [],
       desc: "",
-      channelColPush:2
+      channelColPush: 2,
     };
   },
   methods: {
@@ -315,20 +315,14 @@ export default {
     // this.getArticleMessage();
   },
   mounted() {
-    if(window.innerWidth <= 1200) {
-      this.channelColPush = 0
-      document.querySelector('.navbar').style.display = 'none'
-      document.querySelector('.article_detail').style.paddingTop = 0
-      document.querySelector('.article_detail .container').style.paddingTop = 0
-      
+    if (window.innerWidth <= 1200) {
+      this.channelColPush = 0;
+      document.querySelector(".navbar").style.display = "none";
+      document.querySelector(".article_detail").style.paddingTop = 0;
+      document.querySelector(".article_detail .container").style.paddingTop = 0;
     }
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      this.addLook();
-      window.onload = () => {
-        this.$nuxt.$loading.finish();
-      };
-    });
+    this.addLook();
+
   },
   head() {
     return {
@@ -359,12 +353,11 @@ export default {
         return item.tagName;
       })
       .join(",");
-      console.log(detail,desc)
     return {
       detail,
-      desc
+      desc,
     };
-    params.next()
+    params.next();
   },
 };
 </script>
@@ -376,7 +369,7 @@ export default {
   min-height: 100vh;
   .container {
     padding-top: 20px;
-    
+
     article {
       background-color: #fff;
       padding: 26px;

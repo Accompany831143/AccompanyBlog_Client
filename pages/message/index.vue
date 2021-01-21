@@ -126,7 +126,7 @@ export default {
 <style lang='less' scoped>
 .message {
   min-height: calc(100vh - 40px);
-  padding-top: 80px;
+  padding-top: 115px;
   padding-bottom: 20px;
   background-color: #fff;
 }
