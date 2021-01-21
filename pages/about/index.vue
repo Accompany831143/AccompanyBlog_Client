@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 11:00:02
+ * @LastEditTime: 2021-01-21 14:00:31
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -33,7 +33,7 @@
         </div>
         <div class="info_item">
           <h2>更新日志</h2>
-          <div class="updateInfo" v-for="item in updateLogs.reverse()" :key="item.tag">
+          <div class="updateInfo" v-for="item in updateLogs" :key="item.tag">
             <p><b>{{item.tag}}</b></p>
             <p><a-tag>{{item.date}}</a-tag></p>
             <ul>
@@ -68,14 +68,6 @@ export default {
     return {
       updateLogs:[
         {
-          id:1,
-          tag:'1.0.0',
-          date:'2021-01-08',
-          logs:[
-            "1. 新版本上线"
-          ]
-        },
-        {
           id:2,
           tag:'1.0.1',
           date:'2021-01-21',
@@ -84,6 +76,15 @@ export default {
             "2. 修复了一些小问题"
           ]
         },
+        {
+          id:1,
+          tag:'1.0.0',
+          date:'2021-01-08',
+          logs:[
+            "1. 新版本上线"
+          ]
+        },
+        
       ]
     };
   },
