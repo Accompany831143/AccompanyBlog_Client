@@ -338,12 +338,18 @@ export default {
     };
   },
   async asyncData(params) {
+    if(params.params.id === undefined) {
+      params.redirect('/404')
+    }
     let res = await params.$axios({
       url: "/article/detail",
       params: {
         id: params.params.id,
       },
     });
+    if(!res || !res.body) {
+      return {}
+    }
     res.body.data.releaseTime = Moment(res.body.data.releaseTime).format(
       "YYYY年MM月DD日 HH:mm:ss"
     );
@@ -357,7 +363,6 @@ export default {
       detail,
       desc,
     };
-    params.next();
   },
 };
 </script>
@@ -402,6 +407,9 @@ export default {
             float: right;
           }
         }
+      }
+      .article_body {
+        margin-top: 16px;
       }
       .article_action {
         margin-top: 20px;

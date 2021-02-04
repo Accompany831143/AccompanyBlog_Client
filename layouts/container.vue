@@ -157,12 +157,6 @@
             two-tone-color="#a42982"
             spin
           />
-          <a-icon
-            type="setting"
-            theme="twoTone"
-            two-tone-color="#55bc2f"
-            spin
-          />
         </div>
       </div>
     </div>
@@ -334,41 +328,21 @@ export default {
         font-size: 50px;
         position: absolute;
       }
-      @animate:loading1 1.6s ease infinite alternate;
       & > i:first-of-type {
         top: 0;
-        left: 0;
-        animation: @animate;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 999;
       }
       & > i:nth-of-type(2) {
-        top: 0;
-        right: 0;
-        animation: @animate;
-      }
-      & > i:nth-of-type(3) {
         bottom: 0;
         left: 0;
-        animation: @animate;
       }
       & > i:last-of-type {
         bottom: 0;
         right: 0;
-        animation: @animate;
       }
     }
-  }
-}
-@keyframes loading1 {
-  from {
-    opacity: 1;
-  }
-  to {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.1;
   }
 }
 </style>
