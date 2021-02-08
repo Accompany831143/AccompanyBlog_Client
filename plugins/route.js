@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 10:34:28
+ * @LastEditTime: 2021-02-08 16:53:06
  * @FilePath: \AivaBlog_Client\plugins\route.js
  */
 export default ({app,store}) => {
@@ -12,7 +12,11 @@ export default ({app,store}) => {
             store.commit('changeIsHome',false)
         }
 
-        store.dispatch("addTraffic",to.path)
+        if(store.state.accessTime === undefined) {
+            store.dispatch("addTraffic",to.path)
+            store.commit('changeAccessTime',new Date().valueOf())
+        }
+        
         fn()
     })
 }

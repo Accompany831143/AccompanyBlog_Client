@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-07 13:37:39
+ * @LastEditTime: 2021-02-08 16:48:53
  * @FilePath: \AivaBlog_Client\pages\User\index.vue
 -->
 <template>
@@ -11,11 +11,12 @@
         <nuxt-link :to="'/article/' + item.articleId">{{ item.articleName }}</nuxt-link>
       </a-list-item>
     </a-list>
-    <a-empty v-else />
-    <div style="text-align: center;padding-top:20px;" v-if="pageInfo.total">
+    <a-empty v-else-if="isEmpty" />
+    <div class="coll-page" v-if="pageInfo.total">
       <a-pagination
         :default-current="1"
-        :total="this.pageInfo.total"
+        :total="pageInfo.total"
+        :defaultPageSize="pageInfo.pageSize"
         @change="changePage"
       />
     </div>
@@ -27,9 +28,11 @@ export default {
   data() {
     return {
       recommList: [],
+      isEmpty:false,
       pageInfo:{
         total:0,
-        current:1
+        current:1,
+        pageSize:5
       }
     };
   },
@@ -46,6 +49,12 @@ export default {
           page:this.pageInfo.current
         },
       }).then((res) => {
+        if(this.pageInfo.current === 1 && !res.body.result) {
+          this.isEmpty = true
+          return
+        }else if(this.pageInfo.current >= 1 || res.body.result) {
+          this.isEmpty = false
+        }
         this.recommList = res.body.result;
         this.pageInfo = res.body.pageInfo
       });
@@ -63,4 +72,12 @@ export default {
 </script>
 
 <style lang='less'>
+.coll-page {
+  text-align: center;
+  padding-top:20px;
+  position:absolute;
+  bottom: 50px;
+  left:0;
+  width: 100%;
+}
 </style>
