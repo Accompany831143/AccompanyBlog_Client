@@ -345,4 +345,7 @@ export default {
     }
   }
 }
+.ant-dropdown {
+  z-index: 999999;
+}
 </style>

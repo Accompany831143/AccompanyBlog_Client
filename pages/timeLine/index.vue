@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 10:51:21
+ * @LastEditTime: 2021-02-08 16:48:25
  * @FilePath: \AivaBlog_Client\pages\timeLine\index.vue
 -->
 <template>
@@ -19,7 +19,7 @@
           </div>
         </a-timeline-item>
       </a-timeline>
-      <a-empty v-else />
+      <a-empty v-else-if="isEmpty" />
       <div style="text-align:right;" v-show="articleList.length">
         <p class="loadMore" @click="addMore" v-if="hasMore">加载更多</p>
         <p class="loadMore" v-else >没有数据啦</p>
@@ -42,7 +42,8 @@ export default {
         total:0,
         pageSize:5
       },
-      hasMore:true
+      hasMore:true,
+      isEmpty:false
     };
   },
   components: {
@@ -59,6 +60,12 @@ export default {
         }
       }).then(res => {
         res = res.body
+        if(this.pageInfo.current === 1 && !res.data.length) {
+          this.isEmpty = true
+          return
+        }else if(this.pageInfo.current >= 1 || res.data.length) {
+          this.isEmpty = false
+        }
         res.data = res.data.map(item => {
           item.releaseTime = Moment(item.releaseTime).format('YYYY年MM月DD日 HH:mm:ss')
           return item

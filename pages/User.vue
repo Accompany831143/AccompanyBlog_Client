@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 10:51:33
+ * @LastEditTime: 2021-02-08 16:37:07
  * @FilePath: \AivaBlog_Client\pages\User.vue
 -->
 <template>
@@ -64,12 +64,13 @@ export default {
 
 <style lang='less'>
 .userInfo {
+  position:relative;
   min-height: calc(100vh - 40px);
   padding-top: 115px;
   padding-bottom: 40px;
   .infoBox {
     background-color: #fff;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 190px);
     padding: 16px 26px;
     & > h3 {
       margin-bottom: 16px;
