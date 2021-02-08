@@ -7,50 +7,58 @@
     </div>
     <div class="article_info">
       <a-tooltip>
-        <template slot="title">{{info.containerName}}</template>
-        <a-tag color="#d0344e" class="channel_tag"
-          >{{info.containerName}}</a-tag
-        >
+        <template slot="title">{{ info.containerName }}</template>
+        <a-tag color="#d0344e" class="channel_tag">{{
+          info.containerName
+        }}</a-tag>
       </a-tooltip>
 
       <div>
         <a-icon type="eye" style="color: #999" />
-        <span style="color: #999">{{info.look}}</span>
+        <span style="color: #999">{{ info.look }}</span>
       </div>
       <div>
         <a-icon type="like" style="color: #999" />
-        <span style="color: #999">{{info.good}}</span>
+        <span style="color: #999">{{ info.good }}</span>
       </div>
       <div>
         <a-icon type="heart" style="color: #999" />
-        <span style="color: #999">{{info.love}}</span>
+        <span style="color: #999">{{ info.love }}</span>
       </div>
     </div>
     <h2>
-      <nuxt-link class="linkColor" :to="'/article/' + info.articleId"
-        >{{info.articleName}}</nuxt-link
-      >
+      <nuxt-link class="linkColor" :to="'/article/' + info.articleId">{{
+        info.articleName
+      }}</nuxt-link>
     </h2>
     <div class="article_description">
-      {{info.articleDesc}}
+      {{ info.articleDesc }}
     </div>
     <div class="articleTags">
-      <a-tag v-for="item in info.activeTag" :key="item.tagId" :color="item.tagColor" :style="{color:item.tagFontColor}">{{item.tagName}}</a-tag>
+      <a-tag
+        v-for="item in info.activeTag"
+        :key="item.tagId"
+        :color="item.tagColor"
+        :style="{ color: item.tagFontColor }"
+        >{{ item.tagName }}</a-tag
+      >
     </div>
-    <a-button type="primary" ghost>查看文章</a-button>
+
+    <nuxt-link class="linkColor" :to="'/article/' + info.articleId"
+      ><a-button type="primary" ghost>查看文章</a-button></nuxt-link
+    >
   </div>
 </template>
 
 <script>
 export default {
-  props:{
-    info:Object
+  props: {
+    info: Object,
   },
   data() {
     return {};
   },
-  created() {
-  }
+  created() {},
 };
 </script>
 <style lang='less'>

@@ -48,7 +48,7 @@
                   placeholder="请输入用户名"
                   v-model="formData.registered.userName"
                 >
-                  <a-icon slot="prefix" type="lock" />
+                  <a-icon slot="prefix" type="user" />
                 </a-input>
               </a-form-model-item>
               <a-form-model-item prop="userTel">
