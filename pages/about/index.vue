@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 14:00:31
+ * @LastEditTime: 2021-02-08 16:58:59
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -68,6 +68,14 @@ export default {
     return {
       updateLogs:[
         {
+          id:3,
+          tag:'1.0.2',
+          date:'2021-02-02',
+          logs:[
+            "1. 样式优化,BUG修复"
+          ]
+        },
+        {
           id:2,
           tag:'1.0.1',
           date:'2021-01-21',
@@ -83,8 +91,7 @@ export default {
           logs:[
             "1. 新版本上线"
           ]
-        },
-        
+        }
       ]
     };
   },

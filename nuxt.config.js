@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-01-21 10:22:36
+ * @LastEditTime: 2021-02-04 17:21:47
  * @FilePath: \AivaBlog_Client\nuxt.config.js
  */
 export default {
@@ -23,7 +23,8 @@ export default {
   css: [
     'ant-design-vue/dist/antd.css',
     '@/assets/css/Global.less',
-    '@/static/hljs.css'
+    '@/static/hljs.css',
+    '@/static/articleDetail.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
