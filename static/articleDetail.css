@@ -100,6 +100,11 @@
   background-color: #f7f7f7;
   color           : inherit;
 }
+.custom-html-style code {
+  background-color: #23241f !important;
+  padding:4px;
+
+}
 
 .custom-html-style code {
   margin     : 0 2px;
