@@ -48,7 +48,7 @@
                   placeholder="请输入用户名"
                   v-model="formData.registered.userName"
                 >
-                  <a-icon slot="prefix" type="lock" />
+                  <a-icon slot="prefix" type="user" />
                 </a-input>
               </a-form-model-item>
               <a-form-model-item prop="userTel">
@@ -374,6 +374,9 @@ export default {
       background-color: #fff;
       padding: 26px;
       border-radius: 4px;
+      .ant-form-item:last-of-type {
+        margin-bottom: 0 !important;
+      }
       .form_tootip {
         padding-bottom: 20px;
         display: flex;
