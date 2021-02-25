@@ -374,6 +374,9 @@ export default {
       background-color: #fff;
       padding: 26px;
       border-radius: 4px;
+      .ant-form-item:last-of-type {
+        margin-bottom: 0 !important;
+      }
       .form_tootip {
         padding-bottom: 20px;
         display: flex;

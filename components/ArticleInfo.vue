@@ -2,7 +2,9 @@
   <div class="article_item">
     <div class="img_box">
       <nuxt-link :to="'/article/' + info.articleId">
-        <img :src="info.articlePicture" alt="" />
+        <!-- <img :src="info.articlePicture" alt="" /> -->
+        <LazyImg :src="info.articlePicture" alt="" />
+
       </nuxt-link>
     </div>
     <div class="article_info">
@@ -51,12 +53,16 @@
 </template>
 
 <script>
+import LazyImg from '../components/LazyImg/index';
 export default {
   props: {
     info: Object,
   },
   data() {
     return {};
+  },
+  components:{
+    LazyImg
   },
   created() {},
 };
