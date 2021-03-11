@@ -1,14 +1,16 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-02-04 16:29:53
+ * @LastEditTime: 2021-03-11 11:28:10
  * @FilePath: \AivaBlog_Client\plugins\axios.js
  */
 import ENV from "./envConst"
 import { message } from 'ant-design-vue'
-export default function ({ $axios, redirect }) {
+export default function ({ $axios, app }) {
+  
   $axios.defaults.baseURL = ENV.baseUrl
   $axios.interceptors.request.use(conf => {
+    app.store.commit('changeLoading',true)
     try {
       conf.headers.Authorization = sessionStorage.getItem('token')
     } catch (error) {
@@ -19,8 +21,8 @@ export default function ({ $axios, redirect }) {
     conf.withCredentials = true
     return conf
   })
-
   $axios.interceptors.response.use(res => {
+    app.store.commit('changeLoading',false)
     if (res.data.stateCode === 0) {
       return res.data
     } else {

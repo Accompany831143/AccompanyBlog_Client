@@ -76,6 +76,8 @@
         </a-row>
       </div>
     </section>
+    <img style="display:none;" width="121px" height="75px" src="../assets/imgs/banner_bg.jpg" alt="Aiva博客">
+
   </div>
 </template>
 
