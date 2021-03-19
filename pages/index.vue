@@ -76,8 +76,13 @@
         </a-row>
       </div>
     </section>
-    <img style="display:none;" width="121px" height="75px" src="../assets/imgs/banner_bg.jpg" alt="Aiva博客">
-
+    <img
+      style="display: none"
+      width="121px"
+      height="75px"
+      src="../assets/imgs/banner_bg.jpg"
+      alt="Aiva博客"
+    />
   </div>
 </template>
 
@@ -212,6 +217,42 @@ export default {
   mounted() {
     if (window.innerWidth <= 1200) {
       this.channelColPush = 0;
+    }
+  },
+  async asyncData(params) {
+    let channels = await params.$axios({
+      url: "/channel/latest",
+    });
+
+    channels = channels.body.data.map((item) => {
+      item.id = item.cid;
+      item.title = item.name;
+      return item;
+    });
+
+    let tags = await params.$axios({
+      url: "/tag/get",
+    });
+
+    tags = tags.body.result;
+
+    let articles = await params.$axios({
+      url: "/article/latest",
+      params: {
+        channel: "",
+        date: "",
+        tagId: "",
+        page: 1,
+        pageSize: 10,
+      },
+    });
+
+    let {data,pageInfo} = articles.body
+    return {
+      channelList: channels,
+      tagList: tags,
+      articleList: data,
+      pageInfo
     }
   },
 };

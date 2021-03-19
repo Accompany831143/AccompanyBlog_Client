@@ -266,7 +266,7 @@ export default {
       });
     },
     commitMessage() {
-      let token = sessionStorage.getItem("token");
+      let token = sessionStorage ? sessionStorage.getItem("token") : ''
       if (token) {
         if (this.commentContent === "") {
           this.$message.warn("请输入评论内容！");

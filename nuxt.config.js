@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-02-04 17:21:47
+ * @LastEditTime: 2021-03-19 17:17:46
  * @FilePath: \AivaBlog_Client\nuxt.config.js
  */
 export default {
@@ -21,7 +21,7 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    'ant-design-vue/dist/antd.css',
+    // 'ant-design-vue/dist/antd.min.css',
     '@/assets/css/Global.less',
     '@/static/hljs.css',
     '@/static/articleDetail.css'
@@ -55,7 +55,9 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
-  loading:false,
+  loading: {
+    color: '#d0344e'
+  },
   env: {
     NODE_ENV: process.env.NODE_ENV
   },
@@ -65,6 +67,51 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    extractCSS: { allChunks: true }
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        maxAsyncRequests: 10,
+        cacheGroups: {
+          moment: {
+            test: /node_modules[\\/]moment/,
+            chunks: 'all',
+            priority: 20,
+            name: true
+          },
+          antdDesignVue: {
+            test: /node_modules[\\/]ant-design-vue/,
+            chunks: 'all',
+            priority: 20,
+            name: true
+          },
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
+    },
+    transpile: [
+      "ant-design-vue"
+    ],
+    loaders: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true
+        }
+      }
+    },
+    babel: {
+      plugins: [
+        [
+          "import",
+          { libraryName: "ant-design-vue", libraryDirectory: "es", style: true }
+        ]
+      ]
+    }
   }
 }

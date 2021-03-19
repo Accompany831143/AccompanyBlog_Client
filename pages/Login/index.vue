@@ -86,11 +86,11 @@
                   <a-icon slot="prefix" type="mail" />
                 </a-input>
               </a-form-model-item>
-              <a-form-item>
+              <a-form-model-item>
                 <a-button type="primary" block @click="registeredSubmit"
                   >注册并登录</a-button
                 >
-              </a-form-item>
+              </a-form-model-item>
             </a-form-model>
           </a-tab-pane>
         </a-tabs>
