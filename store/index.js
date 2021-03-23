@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-02-08 16:54:10
+ * @LastEditTime: 2021-03-20 10:59:59
  * @FilePath: \AivaBlog_Client\store\index.js
  */
 import Env from "../plugins/envConst";
@@ -11,7 +11,7 @@ export const state = () => {
         isHome: false,
         logined: false,
         userInfo:{},
-        isLoading:true,
+        isLoading:!true,
         accessTime:undefined
     }
     
@@ -29,7 +29,7 @@ export const mutations = {
         state.userInfo = info
     },
     changeLoading(state,flag) {
-        state.isLoading = flag
+        // state.isLoading = flag
     },
     changeAccessTime(state,time) {
         state.accessTime = time
