@@ -38,8 +38,8 @@
     </div>
     <div class="articleTags">
       <a-tag
-        v-for="item in info.activeTag"
-        :key="item.tagId"
+        v-for="item in info.tags"
+        :key="item.uuid"
         :color="item.tagColor"
         :style="{ color: item.tagFontColor }"
         >{{ item.tagName }}</a-tag

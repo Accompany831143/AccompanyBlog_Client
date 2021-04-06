@@ -187,7 +187,7 @@ export default {
       })
     },
     submit() {
-      this.formData.userAvatar = this.formData.userAvatar.replace(Env.pathUrl,'')
+      // this.formData.userAvatar = this.formData.userAvatar.replace(Env.pathUrl,'')
       // console.log(this.formData)
       // return
       this.$refs.formBox.validate((flag) => {

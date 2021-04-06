@@ -133,9 +133,12 @@ export default {
     // 获取标签
     getTag() {
       this.$axios({
-        url: "/tag/get",
+        url: "/tag/latest",
       }).then((res) => {
-        res = res.body.result;
+        res = res.body.result.map(item => {
+          item.tagId = item.uuid
+          return item
+        });
         this.tagList = res;
       });
     },
@@ -223,7 +226,6 @@ export default {
     let channels = await params.$axios({
       url: "/channel/latest",
     });
-
     channels = channels.body.data.map((item) => {
       item.id = item.cid;
       item.title = item.name;
@@ -231,7 +233,7 @@ export default {
     });
 
     let tags = await params.$axios({
-      url: "/tag/get",
+      url: "/tag/latest",
     });
 
     tags = tags.body.result;

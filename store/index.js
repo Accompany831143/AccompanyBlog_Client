@@ -4,7 +4,6 @@
  * @LastEditTime: 2021-03-20 10:59:59
  * @FilePath: \AivaBlog_Client\store\index.js
  */
-import Env from "../plugins/envConst";
 
 export const state = () => {
     return {
@@ -45,7 +44,7 @@ export const actions = {
             method:'post'
         }).then(res => {
             
-            res.body.result.userAvatar = Env.pathUrl + res.body.result.userAvatar
+            res.body.result.userAvatar = res.body.result.userAvatar
             context.commit('changeUserInfo',res.body.result)
             if(fn && res) {
                 fn()

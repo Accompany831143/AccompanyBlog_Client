@@ -281,6 +281,7 @@ export default {
             method: "post",
             data: this.formData.forgetPwd,
           }).then((res) => {
+            if(!res) return
             this.$message.success("修改成功！");
           });
         }
@@ -299,6 +300,7 @@ export default {
               ...formData,
             },
           }).then((res) => {
+            if(!res) return
             this.$message.success("注册成功，请登录！");
             this.activeKey = '1'
             this.formData.login.userTel = ''

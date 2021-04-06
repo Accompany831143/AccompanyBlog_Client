@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="commentContent">
-            <a-comment v-for="item in messageList" :key="item._id">
+            <a-comment v-for="item in messageList" :key="item.uuid">
               <a slot="author">{{ item.userName }}</a>
               <a-avatar slot="avatar" :src="item.userAvatar" alt="用户01" />
               <p slot="content">{{ item.content }}</p>
@@ -45,7 +45,6 @@
 
 <script>
 import { months } from "moment";
-import Env from "../../plugins/envConst";
 export default {
   layout: "container",
   data() {
@@ -90,7 +89,7 @@ export default {
         },
       }).then((res) => {
         res.body.result = res.body.result.map((item) => {
-          item.userAvatar = Env.pathUrl + item.userAvatar;
+          item.userAvatar = item.userAvatar;
           item.releaseTime = this.$Moment(new Date(item.releaseTime)).format(
             "YYYY-MM-DD HH:mm:ss"
           );
