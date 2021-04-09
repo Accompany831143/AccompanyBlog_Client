@@ -1,3 +1,9 @@
+.custom-html-style img {
+  display: block;
+  width: 70%;
+  margin:10px auto;
+}
+
 .custom-html-style h1,
 .custom-html-style h2,
 .custom-html-style h3,

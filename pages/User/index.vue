@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-02-08 16:48:53
+ * @LastEditTime: 2021-04-09 14:06:50
  * @FilePath: \AivaBlog_Client\pages\User\index.vue
 -->
 <template>
@@ -49,7 +49,7 @@ export default {
           page:this.pageInfo.current
         },
       }).then((res) => {
-        if(this.pageInfo.current === 1 && !res.body.result) {
+        if(this.pageInfo.current === 1 && !res.body.result.length) {
           this.isEmpty = true
           return
         }else if(this.pageInfo.current >= 1 || res.body.result) {
