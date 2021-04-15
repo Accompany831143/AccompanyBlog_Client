@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-25 17:04:26
  * @LastEditors: Aiva
- * @LastEditTime: 2021-02-08 16:58:59
+ * @LastEditTime: 2021-04-15 09:37:15
  * @FilePath: \AivaBlog_Client\pages\about\index.vue
 -->
 <template>
@@ -27,8 +27,8 @@
           <p style="margin-top: 5px">
             技术栈：
             <a-tag color="green">Nuxt</a-tag>
-            <a-tag color="blue">Express</a-tag>
-            <a-tag color="cyan">MongoDB</a-tag>
+            <a-tag color="blue">koa</a-tag>
+            <a-tag color="cyan">Mysql</a-tag>
           </p>
         </div>
         <div class="info_item">
@@ -67,6 +67,15 @@ export default {
   data() {
     return {
       updateLogs:[
+        {
+          id:4,
+          tag:'2.0.0',
+          date:'2021-04-15',
+          logs:[
+            "1. 服务器使用koa+Mysql重构",
+            "2. 修复了一些bug",
+          ]
+        },
         {
           id:3,
           tag:'1.0.2',
