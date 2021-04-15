@@ -215,13 +215,15 @@ export default {
         window.open(url, "_blank");
       }
     },
-    getArticleDetail() {
+    getArticleDetail(fn) {
       this.$axios({
         url: "/article/detail",
         params: {
           id: this.params.id,
         },
       }).then((res) => {
+        if(!res.body || !res.body.data) return
+        fn && fn()
         res.body.data.releaseTime = Moment(res.body.data.releaseTime).format(
           "YYYY年MM月DD日 HH:mm:ss"
         );
@@ -310,7 +312,7 @@ export default {
   },
   created() {
     this.params = this.$route.params;
-    this.getArticleDetail();
+    this.getArticleDetail(this.addLook);
     this.getRecommArticle();
     // this.getArticleMessage();
   },
@@ -321,7 +323,7 @@ export default {
       document.querySelector(".article_detail").style.paddingTop = 0;
       document.querySelector(".article_detail .container").style.paddingTop = 0;
     }
-    this.addLook();
+    // this.addLook();
 
   },
   head() {
@@ -347,7 +349,7 @@ export default {
         id: params.params.id,
       },
     });
-    if(!res || !res.body) {
+    if(!res || !res.body.data) {
       return {}
     }
     res.body.data.releaseTime = Moment(res.body.data.releaseTime).format(
